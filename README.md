@@ -1,7 +1,8 @@
 ---
 Blackboard Binder!
 ---
-
+Authors: Tyler Stapler, Chris Stapler, Jacob Linch, Venecia Alvarez
+---
 Tired of downloading lecture notes?
 
 Sick of missing assignments?
