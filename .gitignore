@@ -1,0 +1,11 @@
+#Generated Files
+*.pyc
+*Spring*
+
+#Development Tools
+*env
+
+#Dot Files
+.vagrant
+.ropeproject
+.twill-history
