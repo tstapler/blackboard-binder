@@ -1,6 +1,8 @@
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect, make_response, send_file, url_for
 from __init__ import app
 from forms import LoginForm
+from blackboard_parse import download_all_files
+import shutil
 import json
 
 @app.route('/', methods=['GET', 'POST'])
@@ -9,10 +11,11 @@ def login():
     userKey = "venecia1"
 
     if form.validate_on_submit():
-        if form.username.data == userKey:
-            return redirect('/success')
-        else:
-            return redirect('/fail')
+        try:
+            download_all_files(user_id=form.username.data, password=form.password.data)
+            return redirect(url_for('download'))
+        except:
+            return redirect(url_for('fail'))
 
     return render_template('login.html',
                            title='Log In',
@@ -32,6 +35,12 @@ def files():
     name = "filename.txt"
     return render_template('filelist.html', dirs=dirs)
 
+@app.route('/bbdownload')
+def download():
+    shutil.make_archive("Blackboard_Files", 'zip', "Blackboard_Files")
+
+    return send_file("Blackboard_Files.zip")
+
 
 dirs = {
   "dir1": {
@@ -47,7 +56,6 @@ dirs = {
 }
 
 
-###for key, value in dirs.viewitems():
 
 
 if __name__== '__main__':

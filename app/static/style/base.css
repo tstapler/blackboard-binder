@@ -2,6 +2,9 @@
   background-color: #FDC82F;
   text-decoration-color: #000;
 }
+.navbar-default .navbar-brand{
+color: #333;
+}
 body {
   padding-top: 40px;
   padding-bottom: 40px;

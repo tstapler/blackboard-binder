@@ -1,27 +1,20 @@
 <!-- extend from base layout -->
 {% extends "base.html" %}
 
+{% import "bootstrap/wtf.html" as wtf %}
+
+
 {% block content %}
 <head>
 	<title>Login Screen for Blackboard Binder</title>
-	 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'style/login.css')}}"/>
 
 </head>
 <body>
-		<div class="container">
-		<form class="panel panel-body form-signin" action="" method="post" name="login">
-			  <h1 class="form-signin-heading"> Login Page </h1>
-      	{{ form.hidden_tag() }}
-      	<p class="checkbox">
-          	Please enter your username:
-          	<div>{{ form.username(size=30) }}</div> <br>
-      	</p>
-				<p class="checkbox">
-          	Please enter your password:<br>
-          	<div>{{ form.password(size=30) }}</div><br>
-      	</p>
-      	<p><input type="submit" value="Log In"></p>
-  	</form>
-		</div>
+<div class="container panel col-md-4 col-md-offset-4">
+	<div class="">
+	<h1 class="form-signin-heading panel-heading"> Login to Download your Blackboard Files</h1>
+	{{ wtf.quick_form(form, extra_classes="container panel-body", form_type="horizontal", horizontal_columns=("lg",1,2))}}
+</div>
+</div>
 </body>
 {% endblock %}
