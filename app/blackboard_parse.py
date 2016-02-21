@@ -21,13 +21,14 @@ def get_credentials(username=None, password=None):
         password = getpass.getpass('Password:')
     return user_id, password
 
-def login_to_blackboard(browser):
+def login_to_blackboard(browser, user_id=None, password=None):
     #Get the blackboard main page
     browser.get("https://bb.its.iastate.edu/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_1_1")
 
     user_id_field = browser.find_element_by_id("user_id")
     password_field = browser.find_element_by_id("password")
-    user_id, password = get_credentials()
+    if user_id is None or password is None:
+        user_id, password = get_credentials(user_id, password)
 
     user_id_field.send_keys(user_id)
     password_field.send_keys(password)
@@ -75,15 +76,19 @@ def download_from_class(browser, course):
     browser.get(course["url"])
     time.sleep(2)
     if open_course_content(browser):
-        find_files(browser,prefix=course["text"].replace(" ","_").title() + "/")
+        find_files(browser,prefix="Blackboard_Files/" + course["text"].replace(" ","_").title() + "/")
 
-if __name__ == '__main__':
+
+def download_all_files(user_id=None, password=None):
     browser = get_webdriver()
     try:
-        login_to_blackboard(browser)
+        login_to_blackboard(browser, user_id=user_id, password=password)
         for course in get_list_of_classes(browser):
-                download_from_class(browser, course)
+            download_from_class(browser, course)
     except:
         raise
     finally:
         browser.close()
+
+if __name__ == '__main__':
+    download_all_files()
