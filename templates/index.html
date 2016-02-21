@@ -18,3 +18,8 @@
 	</form>
 </body>
 </html>
+
+
+@app.route('/', methods =['POST', 'GET'])
+def home(name=None):
+	return render_template('index.html', name=name)
