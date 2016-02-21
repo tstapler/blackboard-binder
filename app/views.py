@@ -3,19 +3,19 @@ from __init__ import app
 from forms import LoginForm
 # index view function suppressed for brevity
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     userKey = "venecia1"
 
     if form.validate_on_submit():
         if form.username.data == userKey:
-            flash('un="%s", pw=%s' %
-                (form.username.data, form.password.data))
+            ##flash('un="%s", pw=%s' %
+            ##    (form.username.data, form.password.data))
             return redirect('/success')
         else:
-            flash('Typed "%s", needed "%s"' %
-                (form.username.data, userKey))
+            ##flash('Typed "%s", needed "%s"' %
+            ##    (form.username.data, userKey))
             return redirect('/fail')
 
     return render_template('login.html',

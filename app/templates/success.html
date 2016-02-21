@@ -3,10 +3,13 @@
 
 {% block content %}
 <head>
-	<title>BBB</title>
+	<title>Blackboard Binder</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'style/success.css')}}"/>
 </head>
 <body>
-
-	<h1> Log In Successful </h1>
-
+ <div class="jumbotron">
+		<h1> Welcome to Blackboard Binder</h1>
+		<p>Tired of downloading lecture notes? Sick of missing assignments? Use Blackboard Binder! An app that logs into that terrible app known as Blackboard for you so you dont have to.</p>
+		<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+</div>
 {% endblock %}
