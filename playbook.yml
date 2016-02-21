@@ -4,22 +4,29 @@
   become: yes
   tasks:
     - name: "Install apps using apt-get"
-      apt: name={{item}} state=present
+      apt: name={{item}} state=present update_cache=yes
       with_items:
         - libxml2
         - libxml2-dev
         - libxslt1-dev
         - python-dev
         - chromium-browser
-    - name="Install app pip dependencies to virtualenv" 
-      pip: requirements=requirements.txt virtualenv=env
-    - name="Download chromedriver for selenium"
+        - python-pip
+        - python
+        - python-lxml
+        - libffi-dev
+        - libssl-dev
+        - unzip
+    - name: "Install app pip dependencies to virtualenv" 
+      pip: requirements=/vagrant/requirements.txt state=present
+    - name: Download chromedriver for selenium"
       get_url: url=http://chromedriver.storage.googleapis.com/2.21/chromedriver_linux64.zip dest=/tmp/chromedriver_linux64.zip
-    - name="Unzip chromedriver"
+    - name: Unzip chromedriver"
       unarchive: 
         src=/tmp/chromedriver_linux64.zip 
         dest=/usr/bin/
-    - name="Set file permissions for chromedriver"
-      file: path=/usr/bin/chromedriver state=file mode=u+x
+        copy=no
+    - name: Set file permissions for chromedriver"
+      file: path=/usr/bin/chromedriver state=file mode=777
 
 
