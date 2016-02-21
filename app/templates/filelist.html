@@ -1,0 +1,26 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+<h1>Display file names...</h1>
+
+<button type="button" onclick="myFunction()">List Files</button>
+<p id="listit"></p>
+
+
+
+<script>
+function myFunction() {
+    var text;
+    
+
+    text = "Received:<br><br> {{ list }}"
+
+    document.getElementById("listit").innerHTML = text;
+}</script>
+
+
+
+</body>
+{% endblock %}

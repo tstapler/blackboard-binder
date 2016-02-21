@@ -10,12 +10,8 @@ def login():
 
     if form.validate_on_submit():
         if form.username.data == userKey:
-            ##flash('un="%s", pw=%s' %
-            ##    (form.username.data, form.password.data))
             return redirect('/success')
         else:
-            ##flash('Typed "%s", needed "%s"' %
-            ##    (form.username.data, userKey))
             return redirect('/fail')
 
     return render_template('login.html',
@@ -29,6 +25,29 @@ def fail():
 @app.route('/success')
 def success():
     return render_template('success.html')
+
+
+@app.route('/files')
+def files():
+    name = "filename.txt"
+    return render_template('filelist.html', list=dirs)
+
+
+dirs = {
+  "dir1": {
+    "file1": "None",
+    "file2": "None"
+  },
+  "dir2": {
+    "dir3": {
+      "file3": "None"
+    },
+    "file4": "None"
+  }
+}
+
+
+###for key, value in dirs.viewitems():
 
 
 if __name__== '__main__':
