@@ -17,7 +17,7 @@
         - libffi-dev
         - libssl-dev
         - unzip
-        - Xvfb
+        - xvfb
     - name: "Install app pip dependencies to virtualenv" 
       pip: requirements=/vagrant/requirements.txt state=present
     - name: "Download chromedriver for selenium"
@@ -30,6 +30,6 @@
     - name: "Set file permissions for chromedriver"
       file: path=/usr/bin/chromedriver state=file mode=777
     - name: "Run Headless Selenium setup script"
-      script: /vagrant/headless_setup.sh
+      shell: /vagrant/headless_setup.sh
 
 
