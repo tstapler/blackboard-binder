@@ -5,19 +5,17 @@
 <body>
 <h1>Display file names...</h1>
 
-<button type="button" onclick="myFunction()">List Files</button>
+<button type="button" onclick="listIt()">List Files</button>
 <p id="listit"></p>
 
 
 
 <script>
-function myFunction() {
-    var text;
-    
+function listIt() {
+var text = "Received:<br><br> {{ list }}"
 
-    text = "Received:<br><br> {{ list }}"
+document.getElementById("listit").innerHTML = text;
 
-    document.getElementById("listit").innerHTML = text;
 }</script>
 
 

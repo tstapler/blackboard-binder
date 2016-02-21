@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect
 from __init__ import app
 from forms import LoginForm
-# index view function suppressed for brevity
+import json
 
 
 
