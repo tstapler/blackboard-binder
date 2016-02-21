@@ -6,20 +6,20 @@
 <h1>Display file names...</h1>
 
 <button type="button" onclick="myFunction()">List Files</button>
-<p id="demo"></p>
+<p id="listit"></p>
+
+
 
 <script>
 function myFunction() {
     var text;
+    
 
-      text = "Didn't get a list"
-      {% if list %}
-      text = "{{ list }}"
-      {% endif %}
+    text = "Received:<br><br> {{ list }}"
 
-
-    document.getElementById("demo").innerHTML = text;
+    document.getElementById("listit").innerHTML = text;
 }</script>
+
 
 
 </body>

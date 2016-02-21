@@ -1,0 +1,14 @@
+{
+  "dirs": {
+  "dir1": {
+    "file1": "None",
+    "file2": "None"
+  },
+  "dir2": {
+    "dir3": {
+      "file3": "None"
+    },
+    "file4": "None"
+  }
+}
+}

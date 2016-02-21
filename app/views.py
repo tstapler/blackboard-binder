@@ -32,22 +32,22 @@ def success():
 @app.route('/files')
 def files():
     name = "filename.txt"
-    return render_template('filelist.html', list=name)
+    return render_template('filelist.html', list=dirs)
 
-"""
+
 dirs = {
   "dir1": {
-    "file1": "None"
+    "file1": "None",
     "file2": "None"
-  }
+  },
   "dir2": {
     "dir3": {
       "file3": "None"
-    }
+    },
     "file4": "None"
   }
 }
-"""
+
 
 ###for key, value in dirs.viewitems():
 
