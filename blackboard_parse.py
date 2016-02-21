@@ -10,12 +10,12 @@ import os
 def get_webdriver():
     return Chrome()
 
-def get_credentials():
-    if getenv("USERNAME") is not None:
+def get_credentials(username=None, password=None):
+    if username is not None or getenv("USERNAME") is not None:
         user_id =  getenv("USERNAME")
     else:
         user_id = raw_input('Please enter username:')
-    if getenv("PASSWORD") is not None:
+    if password is not None or getenv("PASSWORD") is not None:
         password = getenv("PASSWORD")
     else:
         password = getpass.getpass('Password:')
@@ -36,23 +36,20 @@ def login_to_blackboard(browser):
 def get_list_of_classes(browser):
     time.sleep(2)
     courses = browser.find_elements_by_xpath('//*[@id="div_4_1"]//li/a[@target="_top"]')
-    print courses
-    for course in courses:
-        print course.text
-    return courses
+    return [{"url": course.get_attribute("href"), "text": course.text} for course in courses]
 
 def find_files(browser, prefix=''):
     time.sleep(2)
     files = [{"url":str(x.get_attribute("href")),"text":x.text.replace(" ","_").title()} for x in browser.find_elements_by_xpath('//ul[@id="content_listContainer"]/li//a')]
+    old_prefix = prefix
     for f in files:
         print f
         if "bbcswebdav" not in f["url"]:
             old_url = browser.current_url
-            prefix += f["text"]+ "/"
+            prefix = old_prefix + f["text"]+ "/"
             browser.get(f["url"])
             find_files(browser, prefix=prefix)
             browser.get(old_url)
-            prefix = ''
         else:
            print prefix
            print f["text"]
@@ -64,23 +61,28 @@ def find_files(browser, prefix=''):
 
 
 def open_course_content(browser):
-    content_link = browser.find_element_by_xpath("//span[@title='Course Content']/..")
-    content_link.click()
+    try:
+        content_link = browser.find_element_by_xpath("//span[@title='Course Content']/..")
+    except:
+        print("Course Does Not Have Content")
+        return False
 
-def download_from_class(browser, course_link):
-    course_link.click()
+    content_link.click()
+    return True
+
+
+def download_from_class(browser, course):
+    browser.get(course["url"])
     time.sleep(2)
-    open_course_content(browser)
-    find_files(browser)
+    if open_course_content(browser):
+        find_files(browser,prefix=course["text"].replace(" ","_").title() + "/")
 
 if __name__ == '__main__':
+    browser = get_webdriver()
     try:
-        browser = get_webdriver()
         login_to_blackboard(browser)
         for course in get_list_of_classes(browser):
-            if course.text == "E_E 230 All Sections (Spring 2016)":
                 download_from_class(browser, course)
-                break;
     except:
         raise
     finally:
