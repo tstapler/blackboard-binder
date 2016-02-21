@@ -30,10 +30,9 @@ def success():
     return render_template('success.html')
 
 
-@app.route('/files')
+@app.route('/filelist')
 def files():
-    name = "filename.txt"
-    return render_template('filelist.html', dirs=dirs)
+    return render_template('filelist.html')
 
 @app.route('/bbdownload')
 def download():

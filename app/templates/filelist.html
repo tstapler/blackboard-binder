@@ -1,29 +1,8 @@
-<!-- extend from base layout -->
-{% extends "base.html" %}
-
-{% block content %}
-<body>
-<h1>Display file names...</h1>
-
-<button type="button" onclick="listIt()">List Files</button>
-<p id="listit"></p>
+{% extends '__autoindex__/autoindex.html' %}
 
 
-
-<script>
-function listIt() {
-var text = "Received:<br><br> {{ list }}"
-
-
-document.getElementById("listit").innerHTML = text;
-
-}</script>
-{% for key, child in dirs.iteritems() %}
-<h3>{{key}}</h3>
-<p> {{child}}</p>
-{% endfor %}
-
-
-
-</body>
-{% endblock %}
+{% block header %}
+<div class="jumbotron">
+	<h1> Blackboard-Binder</h1>
+</div>
+{% endblock%}
