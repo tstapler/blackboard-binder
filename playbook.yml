@@ -1,0 +1,25 @@
+---
+- name: "Provision blackboard-binder server"
+  hosts: all
+  become: yes
+  tasks:
+    - name: "Install apps using apt-get"
+      apt: name={{item}} state=present
+      with_items:
+        - libxml2
+        - libxml2-dev
+        - libxslt1-dev
+        - python-dev
+        - chromium-browser
+    - name="Install app pip dependencies to virtualenv" 
+      pip: requirements=requirements.txt virtualenv=env
+    - name="Download chromedriver for selenium"
+      get_url: url=http://chromedriver.storage.googleapis.com/2.21/chromedriver_linux64.zip dest=/tmp/chromedriver_linux64.zip
+    - name="Unzip chromedriver"
+      unarchive: 
+        src=/tmp/chromedriver_linux64.zip 
+        dest=/usr/bin/
+    - name="Set file permissions for chromedriver"
+      file: path=/usr/bin/chromedriver state=file mode=u+x
+
+
