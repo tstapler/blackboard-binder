@@ -2,7 +2,9 @@ from seleniumrequests import Chrome
 from selenium.webdriver.common.keys import Keys
 import getpass
 import time, code, traceback
-from os import getenv
+from os import getenv, path
+from distutils.dir_util import mkpath
+import os
 
 
 def get_webdriver():
@@ -41,19 +43,23 @@ def get_list_of_classes(browser):
 
 def find_files(browser, prefix=''):
     time.sleep(2)
-    files = [{"url":str(x.get_attribute("href")),"text":x.text} for x in browser.find_elements_by_xpath('//ul[@id="content_listContainer"]/li//a')]
+    files = [{"url":str(x.get_attribute("href")),"text":x.text.replace(" ","_").title()} for x in browser.find_elements_by_xpath('//ul[@id="content_listContainer"]/li//a')]
     for f in files:
         print f
         if "bbcswebdav" not in f["url"]:
             old_url = browser.current_url
-            prefix += f["text"] + "/"
+            prefix += f["text"]+ "/"
             browser.get(f["url"])
             find_files(browser, prefix=prefix)
             browser.get(old_url)
+            prefix = ''
         else:
            print prefix
+           print f["text"]
            r = browser.request('GET', str(f["url"]))
-           with open("out", "w") as download:
+           mkpath(prefix)
+           filename = prefix + f["text"] + "." + r.headers['Content-Type'].split("/")[1]
+           with open(filename, "w") as download:
                download.write(r.content)
 
 
