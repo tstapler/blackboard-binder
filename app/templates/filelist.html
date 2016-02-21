@@ -1,0 +1,26 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+<h1>Display file names...</h1>
+
+<button type="button" onclick="myFunction()">List Files</button>
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+    var text;
+
+      text = "Didn't get a list"
+      {% if list %}
+      text = "{{ list }}"
+      {% endif %}
+
+
+    document.getElementById("demo").innerHTML = text;
+}</script>
+
+
+</body>
+{% endblock %}
