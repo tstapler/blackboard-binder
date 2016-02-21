@@ -2,6 +2,7 @@ from flask import render_template, flash, redirect, make_response, send_file, ur
 from __init__ import app
 from forms import LoginForm
 from blackboard_parse import download_all_files
+import os
 import shutil
 import json
 
