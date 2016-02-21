@@ -14,9 +14,14 @@
 function listIt() {
 var text = "Received:<br><br> {{ list }}"
 
+
 document.getElementById("listit").innerHTML = text;
 
 }</script>
+{% for key, child in dirs.iteritems() %}
+<h3>{{key}}</h3>
+<p> {{child}}</p>
+{% endfor %}
 
 
 
