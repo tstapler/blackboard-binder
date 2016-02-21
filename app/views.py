@@ -3,8 +3,6 @@ from __init__ import app
 from forms import LoginForm
 import json
 
-
-
 @app.route('/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
