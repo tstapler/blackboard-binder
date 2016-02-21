@@ -9,17 +9,16 @@
 </head>
 <body>
 		<div class="container">
-		<form class="form-group" action="" method="post" name="login">
+		<form class="form-signin" action="" method="post" name="login">
 			  <h1 class="form-signin-heading"> Login Page </h1>
-		  	<h3 class="form-signin-heading"> Enter Blackboard User Name and Password</h3>
       	{{ form.hidden_tag() }}
-      	<p>
-          	Please enter your username:<br>
-          	{{ form.username(size=80) }}<br>
+      	<p class="checkbox">
+          	Please enter your username:
+          	<div>{{ form.username(size=30) }}</div> <br>
       	</p>
-				<p>
+				<p class="checkbox">
           	Please enter your password:<br>
-          	{{ form.password(size=80) }}<br>
+          	<div>{{ form.password(size=30) }}</div><br>
       	</p>
       	<p><input type="submit" value="Log In"></p>
   	</form>
