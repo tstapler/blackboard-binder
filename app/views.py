@@ -30,7 +30,7 @@ def success():
 @app.route('/files')
 def files():
     name = "filename.txt"
-    return render_template('filelist.html', list=dirs)
+    return render_template('filelist.html', dirs=dirs)
 
 
 dirs = {
