@@ -1,0 +1,25 @@
+<!doctype html>
+{% extends "base.html" %}
+<html lang="en">
+<head>
+	<title>Login Screen for Blackboard Binder</title>
+</head>
+<body>
+
+	<h1> Login Page </h1>
+	<h3> Enter Blackboard User Name and Password</h3>
+
+	<form action="" method="post" name="login">
+      {{ form.hidden_tag() }}
+      <p>
+          Please enter your username:<br>
+          {{ form.username(size=80) }}<br>
+      </p>
+			<p>
+          Please enter your password:<br>
+          {{ form.password(size=80) }}<br>
+      </p>
+      <p><input type="submit" value="Log In"></p>
+  </form>
+</body>
+</html>
