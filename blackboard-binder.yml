@@ -3,6 +3,8 @@
   hosts: all
   become: yes
   tasks:
+    - name: "Install app pip dependencies to virtualenv" 
+      pip: requirements={{playbook_dir}}/requirements.txt state=present
     - name: "Install apps using apt-get"
       apt: name={{item}} state=present update_cache=yes
       with_items:
@@ -18,8 +20,6 @@
         - libssl-dev
         - unzip
         - xvfb
-    - name: "Install app pip dependencies to virtualenv" 
-      pip: requirements=/vagrant/requirements.txt state=present
     - name: "Download chromedriver for selenium"
       get_url: url=http://chromedriver.storage.googleapis.com/2.21/chromedriver_linux64.zip dest=/tmp/chromedriver_linux64.zip
     - name: "Unzip chromedriver"
@@ -30,6 +30,6 @@
     - name: "Set file permissions for chromedriver"
       file: path=/usr/bin/chromedriver state=file mode=777
     - name: "Run Headless Selenium setup script"
-      shell: /vagrant/headless_setup.sh
+      shell: "{{playbook_dir}}/headless_setup.sh"
 
 
