@@ -1,10 +1,16 @@
 ---
-- name: "Provision blackboard-binder server"
+- name: "Provision blackboard-binder server using vagrant"
   hosts: all
   become: yes
   tasks:
     - name: "Install app pip dependencies to virtualenv" 
-      pip: requirements={{playbook_dir}}/requirements.txt state=present
+      pip: requirements=/vagrant/requirements.txt state=present
+      when: ansible_ssh_user == "vagrant"
+
+    - name: "Install app pip dependencies to virtualenv" 
+      pip: requirements=/vagrant/requirements.txt state=present
+      when: ansible_ssh_user != "vagrant"
+
     - name: "Install apps using apt-get"
       apt: name={{item}} state=present update_cache=yes
       with_items:
@@ -22,14 +28,22 @@
         - xvfb
     - name: "Download chromedriver for selenium"
       get_url: url=http://chromedriver.storage.googleapis.com/2.21/chromedriver_linux64.zip dest=/tmp/chromedriver_linux64.zip
+
     - name: "Unzip chromedriver"
       unarchive: 
         src=/tmp/chromedriver_linux64.zip 
         dest=/usr/bin/
         copy=no
+
     - name: "Set file permissions for chromedriver"
       file: path=/usr/bin/chromedriver state=file mode=777
+
+    - name: "Run Headless Selenium setup script"
+      shell: "/vagrant/headless_setup.sh"
+      when: ansible_ssh_user == "vagrant"
+
     - name: "Run Headless Selenium setup script"
       shell: "{{playbook_dir}}/headless_setup.sh"
+      when: ansible_ssh_user != "vagrant"
 
 
