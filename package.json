@@ -7,11 +7,15 @@
     "start": "node utils/webserver.js"
   },
   "dependencies": {
-    "artoo-js": "^0.4.0",
+    "immutability-helper": "^2.6.2",
     "jquery": "^3.2.1",
+    "lodash": "^4.17.4",
     "react": "^15.3.2",
+    "react-chrome-redux": "^1.4.0",
     "react-dom": "^15.3.2",
-    "script-loader": "^0.7.2"
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",

@@ -1,0 +1,2 @@
+const ADD_CLASS = 'ADD_TODO'
+const DELETE_CLASS = 'DELETE_CLASS'
