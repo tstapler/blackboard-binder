@@ -4,6 +4,11 @@
   "background": {
     "page": "background.html"
   },
+  "content_scripts": [{
+	  "matches": ["*://*/*"],
+	  "js": ["content.bundle.js"],
+	  "run_at": "document_end"
+  }],
   "browser_action": {
     "default_popup": "popup.html",
     "default_icon": "icon-34.png"
@@ -11,6 +16,9 @@
   "icons": {
     "128": "icon-128.png"
   },
+  "permissions": [
+          "webNavigation"
+        ],
   "manifest_version": 2,
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

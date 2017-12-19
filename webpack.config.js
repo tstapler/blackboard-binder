@@ -21,6 +21,7 @@ if (fileSystem.existsSync(secretsPath)) {
 var options = {
   entry: {
     popup: path.join(__dirname, "src", "js", "popup.js"),
+    content: path.join(__dirname, "src", "js", "content.js"),
     options: path.join(__dirname, "src", "js", "options.js"),
     background: path.join(__dirname, "src", "js", "background.js")
   },
@@ -54,7 +55,7 @@ var options = {
   },
   resolve: {
     alias: alias,
-    extensions: fileExtensions.map(extension => ("." + extension)).concat([".jsx", ".js", ".css"])
+    extensions: fileExtensions.map(extension => ("." + extension)).concat([".jsx", ".js", ".css", ".json"])
   },
   plugins: [
     // clean the build folder
