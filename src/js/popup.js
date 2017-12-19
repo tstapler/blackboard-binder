@@ -14,7 +14,9 @@ const store = new Store({
 store.ready().then(() => {
   render(
     <Provider store={store}>
-      <Greeting/><Parser/>
+      <div>
+          <Greeting/><Parser/>
+      </div>
     </Provider>,
     window.document.getElementById("app-container")
   )
