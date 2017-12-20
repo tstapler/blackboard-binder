@@ -1,6 +1,5 @@
-import {Store} from 'react-chrome-redux'
 import Parser from './parser'
-
+import {Store} from 'react-chrome-redux'
 import { addClass } from './reducers/classes'
 
 window.addClass = addClass

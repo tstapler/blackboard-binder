@@ -1,8 +1,7 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { Header, Icon, Label, List, Segment } from 'semantic-ui-react'
 
-
+import React from 'react'
+import { connect } from 'react-redux'
 
 class GreetingCompoennt extends React.Component {
   render () {
@@ -36,7 +35,7 @@ class GreetingCompoennt extends React.Component {
   }
 };
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   return { classes: state.classes.classesById }
 }
 

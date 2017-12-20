@@ -1,6 +1,7 @@
+import { Button, Segment } from 'semantic-ui-react'
+
 import React from 'react'
 import _ from 'lodash'
-import { Button, Segment } from 'semantic-ui-react'
 
 const coursePage = 'https://bb.its.iastate.edu/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_2_1'
 

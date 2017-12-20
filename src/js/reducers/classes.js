@@ -1,6 +1,7 @@
-import { handleActions, createAction } from 'redux-actions'
-import update from 'immutability-helper'
+import { createAction, handleActions } from 'redux-actions'
+
 import queryString from 'query-string'
+import update from 'immutability-helper'
 
 const getCourseIdFromUrl = (url) => {
   return queryString.parse(url).id.replace(/_1/g, '').replace(/_/g, '')

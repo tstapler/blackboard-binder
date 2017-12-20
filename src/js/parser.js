@@ -1,5 +1,5 @@
-import jquery from 'jquery'
 import { addClass } from './reducers/classes'
+import jquery from 'jquery'
 
 window.$ = jquery
 window.addClass = addClass

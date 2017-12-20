@@ -28,4 +28,4 @@ $(DOCKER_RULES):
 
 # Add local rules which are run in the docker container
 local-format:
-	standard --global $$ --global chrome --fix src/**/*.{js,jsx}
+	import-sort --write src/**/*.{js,jsx} && standard --global $$ --global chrome --fix src/**/*.{js,jsx} 
