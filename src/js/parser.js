@@ -12,7 +12,7 @@ export default class Parser {
   getCourseList () {
     $.map($('ul.courseListing li a'), function (item) {
       return {'title': item.text, 'url': item.href}
-    }).every((payload) => {
+    }).forEach((payload) => {
       this.store.dispatch(addClass(payload))
     })
   }
