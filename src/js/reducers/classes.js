@@ -8,7 +8,6 @@ const getCourseIdFromUrl = (url) => {
 
 const defaultState = {
   classesById: {
-    1: {'title': 'Math 167', 'count': 10}
   }
 }
 

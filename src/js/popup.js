@@ -13,10 +13,10 @@ const store = new Store({
 })
 
 // Using react-chrome-redux https://github.com/tshaddix/react-chrome-redux
-store.ready().then(() => {
+const unsubscribe = store.subscribe(() => {
+  unsubscribe()
   render(
     <Provider store={store}>
-
       <div>
         <Segment vertical>
           <Header as='h1' size='medium' textAlign='center'>
@@ -24,7 +24,7 @@ store.ready().then(() => {
             BlackBoard-Binder
           </Header>
         </Segment>
-        <Greeting classes={store.state.classes.classesById} />
+        <Greeting/>
         <Parser />
       </div>
     </Provider>,

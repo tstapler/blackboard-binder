@@ -1,7 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Header, Icon, Label, List, Segment } from 'semantic-ui-react'
 
-export default class extends React.Component {
+
+
+class GreetingCompoennt extends React.Component {
   render () {
     const listItems = Object.keys(this.props.classes)
     const list = listItems.map((key, index) =>
@@ -32,3 +35,9 @@ export default class extends React.Component {
     )
   }
 };
+
+function mapStateToProps(state) {
+  return { classes: state.classes.classesById }
+}
+
+export default connect(mapStateToProps)(GreetingCompoennt)
