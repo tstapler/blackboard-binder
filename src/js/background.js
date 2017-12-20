@@ -4,6 +4,8 @@ import {wrapStore} from 'react-chrome-redux'
 import { createStore } from 'redux'
 import reducer from './reducers'
 
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()) // a normal Redux store
+const store = createStore(reducer) // a normal Redux store
+
+window.store = store
 
 wrapStore(store, {portName: 'BBBINDER'}) // make sure portName matches
