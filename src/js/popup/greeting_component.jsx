@@ -1,30 +1,34 @@
 import React from "react";
-import icon from "../../img/icon-128.png"
+import {  Divider, Header, Icon, Label, List, Segment } from 'semantic-ui-react';
 
 export default class extends React.Component {
-
-  constructor(props) {
-        super(props);
-        this.state = {
-            list: Array(2).fill("hi")
-        }
-        this.handleList = this.handleList.bind(this);
-  }
-
-  handleList() {
-    this.setState(prevState => ({
-        list: Array(4).fill("hi")
-    }));
-    console.log(this);
-  }
-
   render () {
-    const listItems = this.state.list.map((item) => <li>{item}</li>);
+
+    const listItems = Object.keys(this.props.classes)
+    const list = listItems.map((key, index) =>
+      <List.Item as='a' key={index}>
+        <List.Icon name='right triangle'/>
+        <List.Content>
+          <List.Header>
+            <span>{this.props.classes[key].name}{' '}</span>
+            <Label size='mini' circular
+                   color='black' >
+              {this.props.classes[key].count}
+            </Label>
+          </List.Header>
+
+        </List.Content>
+      </List.Item>
+    );
     return (
       <div>
-        <h1>Download List:</h1>
-        <ul> {listItems} </ul>
-        <button onClick={this.handleList}>download now</button>
+      <Segment color='black'>
+        <Header as='h2' size='small' dividing>
+          <Icon name='book'/>
+          Course List
+        </Header>
+        <List size='tiny' >{list}</List>
+      </Segment>
       </div>
     )
   }

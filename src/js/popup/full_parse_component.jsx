@@ -1,5 +1,6 @@
 import React from "react";
 import _ from "lodash";
+import {  Button, Icon, Segment } from 'semantic-ui-react';
 
 const coursePage = "https://bb.its.iastate.edu/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_2_1"
 
@@ -34,8 +35,12 @@ export default class extends React.Component {
   render () {
     return (
       <div>
-      <button onClick={this.parseClassList}>Parse Class List</button>
-      <button onClick={this.parseFiles}>Parse Files</button>
+      <Segment color='black'>
+        <Button.Group size='mini' widths='2'>
+          <Button onClick={this.parseClassList}>Parse Class List</Button>
+          <Button onClick={this.parseFiles}>Parse Files</Button>
+        </Button.Group>
+      </Segment>
       </div>
     )
   }

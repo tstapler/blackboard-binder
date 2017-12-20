@@ -34,7 +34,6 @@ var options = {
       {
         test: /\.css$/,
         loader: "style-loader!css-loader",
-        exclude: /node_modules/
       },
       {
         test: new RegExp('\.(' + fileExtensions.join('|') + ')$'),
@@ -50,6 +49,18 @@ var options = {
         test: /\.(js|jsx)$/,
         loader: "babel-loader",
         exclude: /node_modules/
+      },
+      {
+        test: /\.jpe?g$|\.gif$|\.png$|\.ttf$|\.eot$|\.svg$/,
+        use: [{
+          loader: 'file-loader?name=[name].[ext]?[hash]',
+        }]
+      },
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        use: [{
+          loader: 'url-loader?limit=10000&mimetype=application/fontwoff&name=[name].[ext]',
+        }]
       }
     ]
   },

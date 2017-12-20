@@ -1,6 +1,5 @@
 import '../img/icon-128.png'
 import '../img/icon-34.png'
-import { composeWithDevTools } from 'redux-devtools-extension'
 import {wrapStore} from 'react-chrome-redux'
 import { createStore } from 'redux'
 import reducer from './reducers'
