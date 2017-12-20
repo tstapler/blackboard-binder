@@ -4,11 +4,10 @@ import _ from "lodash";
 const coursePage = "https://bb.its.iastate.edu/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_2_1"
 
 function sendToCurrentTab(response) {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
       if (_.isFunction(response)) {
         response(tabs)
       } else {
-
         chrome.tabs.sendMessage(tabs[0].id, response);
       }
     });
@@ -17,11 +16,14 @@ function sendToCurrentTab(response) {
 export default class extends React.Component {
   parseClassList () {
     sendToCurrentTab(
-      function(tabs) {
-        chrome.tabs.update(tabs[0].id, {url: coursePage});
-        setTimeout(function() {
-          chrome.tabs.sendMessage(tabs[0].id, {getCourseList: true}, function(response) {});
-        }, 3000)
+      (tabs) => {
+        chrome.tabs.update(tabs[0].id, {url: coursePage}, () => {
+          setTimeout(
+          chrome.tabs.sendMessage(
+            tabs[0].id,
+            {getCourseList: true},
+            (response) => {}), 2000)
+        });
       });
   }
 
