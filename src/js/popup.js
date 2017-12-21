@@ -3,7 +3,7 @@ import '../css/popup.css'
 
 import { Header, Icon, Segment } from 'semantic-ui-react'
 
-import Greeting from './popup/greeting_component.jsx'
+import Classes from './popup/ClassesComponent.jsx'
 import Parser from './popup/ParserButtonsComponent.jsx'
 import {Provider} from 'react-redux'
 import React from 'react'
@@ -26,7 +26,7 @@ const unsubscribe = store.subscribe(() => {
             BlackBoard-Binder
           </Header>
         </Segment>
-        <Greeting />
+        <Classes/>
         <Parser />
       </div>
     </Provider>,
