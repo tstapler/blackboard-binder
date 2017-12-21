@@ -24,8 +24,10 @@ chrome.runtime.onMessage.addListener(
         parser.getCourseList()
         console.log(store.state)
       } else if (request.parseFiles) {
-        console.log(parser.parseFiles())
+        parser.parseFiles()
       // Universal ContentScript communication handler
+      } else if (request.parseCoursePage) {
+        parser.parseCoursePage()
       } else if (request.contentScriptCall) {
       }
     }, 2000)

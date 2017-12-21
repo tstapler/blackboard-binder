@@ -1,9 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 
-import queryString from 'query-string'
-import update from 'immutability-helper'
-
 import { getCourseIdFromUrl } from '../util'
+import update from 'immutability-helper'
 
 const defaultState = {
   classesById: {
@@ -11,30 +9,24 @@ const defaultState = {
 }
 
 export const addClass = createAction('CLASS_ADD')
-export const removeClass = createAction('CLASS_REMOVE')
 
 const reducer = handleActions({
   CLASS_ADD: (state, action) => {
-    let newId = getCourseIdFromUrl(action.payload.url)
-    console.log(newId)
+    let id = getCourseIdFromUrl(action.payload.url)
+    console.log(id)
     return update(state, {
       classesById: {
-        [newId]: {
+        [id]: {
           $set: {
             ...action.payload,
-            id: newId,
+            id,
             count: 0
           }
         }
       }
     }
     )
-  },
-  CLASS_REMOVE: (state, action) => update(state, {
-    classesById: {
-      $unset: action.payload.url
-    }
-  })
+  }
 }, defaultState)
 
 export { reducer as classesReducer }

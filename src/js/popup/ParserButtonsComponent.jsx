@@ -2,6 +2,7 @@ import { Button, Segment } from 'semantic-ui-react'
 
 import React from 'react'
 import _ from 'lodash'
+import { connect } from 'react-redux'
 
 const coursePage = 'https://bb.its.iastate.edu/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_2_1'
 
@@ -15,7 +16,7 @@ function sendToCurrentTab (response) {
   })
 }
 
-export default class extends React.Component {
+class ParserButtonsComponent extends React.Component {
   parseClassList () {
     sendToCurrentTab(
       (tabs) => {
@@ -26,7 +27,7 @@ export default class extends React.Component {
               tabs[0].id,
               {getCourseList: true},
               (response) => {})
-        }, 1000)
+        }, 3000)
       })
   }
 
@@ -34,16 +35,25 @@ export default class extends React.Component {
     sendToCurrentTab({parseFiles: true})
   }
 
+  parsePage () {
+    sendToCurrentTab({parseCoursePage: true})
+  }
+
   render () {
     return (
       <div>
         <Segment color='black'>
-          <Button.Group size='mini' widths='2'>
+          <Button.Group size='mini' widths='1'>
             <Button onClick={this.parseClassList}>Parse Class List</Button>
             <Button onClick={this.parseFiles}>Parse Files</Button>
+            <Button onClick={this.parsePage}>Parse Page</Button>
           </Button.Group>
         </Segment>
       </div>
     )
   }
 };
+
+const mapStateToProps = state => state
+
+export default connect(mapStateToProps)(ParserButtonsComponent)

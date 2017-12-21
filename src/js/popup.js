@@ -4,7 +4,7 @@ import '../css/popup.css'
 import { Header, Icon, Segment } from 'semantic-ui-react'
 
 import Greeting from './popup/greeting_component.jsx'
-import Parser from './popup/full_parse_component.jsx'
+import Parser from './popup/ParserButtonsComponent.jsx'
 import {Provider} from 'react-redux'
 import React from 'react'
 import {Store} from 'react-chrome-redux'
