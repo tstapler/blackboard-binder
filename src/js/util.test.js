@@ -26,7 +26,9 @@ test('Check that we get the correct Content ID from a url', () => {
 
 test('Check that we get the correct File ID from a url', () => {
   let testUrls = [
-    {url: 'https://bb.its.iastate.edu/bbcswebdav/pid-3834264-dt-content-rid-42404217_1/courses/F2017-CPR_E-308_-ALL/quiz1-solution.pdf', id: 'pid-3834264-dt-content-rid-42404217_1'}
+    {url: 'https://bb.its.iastate.edu/bbcswebdav/pid-3834264-dt-content-rid-42404217_1/courses/F2017-CPR_E-308_-ALL/quiz1-solution.pdf', id: 'pid-3834264-dt-content-rid-42404217_1',},
+    {url: 'https://bb.its.iastate.edu/bbcswebdav/pid-509091-dt-announcement-rid-44600741_1/xid-44600741_1', id: "pid-509091-dt-announcement-rid-44600741_1" }
+
   ]
   checkUrls(getFileIdFromUrl, testUrls)
 })
