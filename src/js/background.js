@@ -9,7 +9,7 @@ import reducer from './reducers'
 import {wrapStore} from 'react-chrome-redux'
 
 const store = createStore(reducer, compose(
-      applyMiddleware(thunk, freeze, createLogger()),
+      applyMiddleware(freeze, createLogger())
     )) // a normal Redux store
 
 window.store = store
