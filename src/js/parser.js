@@ -1,5 +1,6 @@
 import { addClass } from './reducers/classes'
 import { addPage } from './actions/pages'
+import { addFile } from './actions/files'
 import jquery from 'jquery'
 
 window.$ = jquery
@@ -27,8 +28,14 @@ export default class Parser {
   }
 
   parseFiles () {
-    console.log($.map($('a[href*="bbcswebdav"]'), (item) => {
-      return { 'title': item.text, 'url': item.href }
-    }))
+    $.map($('a[href*="bbcswebdav"], embed[src*="bbcswebdav"]'), (item) => {
+      if(item.nodeName == "EMBED"){
+        return {title: $("#pageTitleText")[0].textContent, url: item.src,
+                parentUrl: window.location.href }
+      }
+      return { title: item.text, url: item.href, parentUrl: window.location.href }
+    }).forEach((payload) => {
+      this.store.dispatch(addFile(payload))
+    })
   }
 }

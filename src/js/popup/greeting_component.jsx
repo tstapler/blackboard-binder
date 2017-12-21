@@ -5,17 +5,13 @@ import { connect } from 'react-redux'
 
 class GreetingCompoennt extends React.Component {
   render () {
-    const listItems = Object.keys(this.props.classes)
+    const listItems = Object.keys(this.props.classesById)
     const list = listItems.map((key, index) =>
       <List.Item as='a' key={index}>
         <List.Icon name='right triangle' />
         <List.Content>
           <List.Header>
-            <span>{this.props.classes[key].title}{' '}</span>
-            <Label size='mini' circular
-              color='black' >
-              {this.props.classes[key].count}
-            </Label>
+            <span>{this.props.classesById[key].title}{' '}</span>
           </List.Header>
 
         </List.Content>
@@ -36,7 +32,8 @@ class GreetingCompoennt extends React.Component {
 };
 
 function mapStateToProps (state) {
-  return { classes: state.classes.classesById }
+  return { classesById: state.classes.classesById,
+           filesById: state.files.filesById}
 }
 
 export default connect(mapStateToProps)(GreetingCompoennt)

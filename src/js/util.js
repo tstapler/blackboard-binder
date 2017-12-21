@@ -13,4 +13,9 @@ export const getCourseIdFromUrl = (url) => {
   }
 }
 
+export const getFileIdFromUrl = (url) => {
+  let urlObject = url.match(/pid-\d+-dt-content-rid-\d+_1/)[0]
+  return urlObject
+}
+
 export const getContentIdFromUrl = (url) => getQueryObject(url).content_id

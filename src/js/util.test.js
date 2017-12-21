@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import { getContentIdFromUrl, getCourseIdFromUrl } from './util'
+import { getContentIdFromUrl, getCourseIdFromUrl, getFileIdFromUrl } from './util'
 
 function checkUrls (testFunction, testUrls) {
   for (const testUrl of testUrls) {
@@ -22,4 +22,11 @@ test('Check that we get the correct Content ID from a url', () => {
     }
   ]
   checkUrls(getContentIdFromUrl, testUrls)
+})
+
+test('Check that we get the correct File ID from a url', () => {
+  let testUrls = [
+    {url: 'https://bb.its.iastate.edu/bbcswebdav/pid-3834264-dt-content-rid-42404217_1/courses/F2017-CPR_E-308_-ALL/quiz1-solution.pdf', id: 'pid-3834264-dt-content-rid-42404217_1'}
+  ]
+  checkUrls(getFileIdFromUrl, testUrls)
 })
