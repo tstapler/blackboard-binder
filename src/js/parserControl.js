@@ -6,19 +6,16 @@ export const COURSE_PAGE = 'https://bb.its.iastate.edu/webapps/portal/execute/ta
 export async function getCurrentTab () {
   let tabs = await chrome.tabs.query({active: true, currentWindow: true})
   console.log("Getting tabs")
-  console.log(await tabs)
   return await tabs[0]
 }
 
 export async function changeUrl (tabId, url) {
-  console.log(tabId)
   await chrome.tabs.update(tabId, {url: url})
 }
 
 export async function sendMessage(tabId, message_type) {
-  console.log("Sending Message")
-  console.log(tabId)
-  await delay(4000)
+  console.log("Sending Message:", message_type)
+  await delay(1000)
   let response = await chrome.tabs.sendMessage(tabId, {[message_type]: true})
   console.log(response)
 }

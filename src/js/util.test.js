@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import { getContentIdFromUrl, getCourseIdFromUrl, getFileIdFromUrl } from './util'
+import { getContentIdFromUrl, getCourseIdFromUrl, getFileIdFromUrl, getPageIdFromUrl } from './util'
 
 function checkUrls (testFunction, testUrls) {
   for (const testUrl of testUrls) {
@@ -19,6 +19,9 @@ test('Check that we get the correct Content ID from a url', () => {
   let testUrls = [
     {
       url: 'https://bb.its.iastate.edu/webapps/blackboard/content/listContent.jsp?course_id=_60065_1&content_id=_3482700_1', id: '_3482700_1'
+    },
+    {
+      url: 'https://bb.its.iastate.edu/webapps/blackboard/execute/launcher?type=Course&id=_6640_1&url=', id: '_6640_1'
     }
   ]
   checkUrls(getContentIdFromUrl, testUrls)
@@ -31,4 +34,16 @@ test('Check that we get the correct File ID from a url', () => {
 
   ]
   checkUrls(getFileIdFromUrl, testUrls)
+})
+
+test('Check that we get the right Page ID from a url', () => {
+  let testUrls = [
+    {
+      url: 'https://bb.its.iastate.edu/webapps/blackboard/content/listContent.jsp?course_id=_60065_1&content_id=_3482700_1', id: '_60065_1:_3482700_1'
+    },
+    {
+      url: 'https://bb.its.iastate.edu/webapps/blackboard/execute/launcher?type=Course&id=_6640_1&url=', id: '_6640_1:_6640_1'
+    }
+  ]
+  checkUrls(getPageIdFromUrl, testUrls)
 })

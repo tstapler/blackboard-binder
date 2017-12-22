@@ -1,4 +1,4 @@
-import { getContentIdFromUrl, getCourseIdFromUrl } from '../util'
+import { getContentIdFromUrl, getCourseIdFromUrl, getPageIdFromUrl } from '../util'
 
 import { handleActions } from 'redux-actions'
 import update from 'immutability-helper'
@@ -9,25 +9,31 @@ const defaultState = {
 
 const reducer = handleActions({
   PAGE_ADD: (state, action) => {
-    let pageId = getContentIdFromUrl(action.payload.url)
+    let id = getPageIdFromUrl(action.payload.url)
+    let contentId = getContentIdFromUrl(action.payload.url)
     let courseId = getCourseIdFromUrl(action.payload.url)
-    return update(state, {pagesById: {
-      [pageId]: {
-        $set: {
-          ...action.payload,
-          pageId,
-          courseId,
-          visited: false
+    if(!_.has(state.pagesById, id)) {
+      return update(state, {pagesById: {
+        [id]: {
+          $set: {
+            ...action.payload,
+            id,
+            contentId,
+            courseId,
+            visited: false
+          }
         }
       }
-    }
     })
+    } else {
+      return state
+    }
   },
   PAGE_VISIT: (state, action) => {
-    let contentId = getContentIdFromUrl(action.payload.url)
+    let id = getPageIdFromUrl(action.payload.url)
     return update(state, {
       pagesById: {
-        [contentId]: {
+        [id]: {
           visited: {
             $set: true
           }

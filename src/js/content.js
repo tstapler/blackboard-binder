@@ -19,15 +19,11 @@ chrome.runtime.onMessage.addListener(
     console.log('chrome.runtime.onMessage', request)
     setTimeout(() => {
       if (request.parseForCoursePage) {
-        console.log(store.state)
-        console.log('Updating course list')
         parser.getCourseList()
-        console.log(store.state)
       } else if (request.parseForFiles) {
         parser.parseFiles()
-      // Universal ContentScript communication handler
-      } else if (request.parseCoursePage) {
-        parser.parseCoursePage()
+      } else if (request.parseForPages) {
+        parser.parseCourseSidebar()
       } else if (request.contentScriptCall) {
       }
       sendResponse("Finished")

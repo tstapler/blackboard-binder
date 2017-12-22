@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { put, call, take, takeLatest, select } from 'redux-saga/effects'
 
-import { parsePageAction } from '../actions/pages'
+import { visitPage } from '../actions/pages'
 import { processPage, processCourses } from '../parserControl'
 
 const getClasses = (state) => _.values(state.classes.classesById)
@@ -20,13 +20,16 @@ export function * parseAllClasses (action) {
       console.log(currClass)
       yield call(processPage, currentTab.id, currClass.url)
     }
+    console.log("Getting unparsed pages")
     let unparsedPages = yield select(getUnparsedPages)
     while (_.some(unparsedPages)) {
-      console.log(unparsedPages)
-      let nextPage = _.first(unparsedPages)
-      yield call(processPage, currentTab.id, nextPage.url)
+      console.log("Unparsed pages:", unparsedPages)
+      let currentPage = _.first(unparsedPages)
+      yield call(processPage, currentTab.id, currentPage.url)
+      yield put.resolve(visitPage(currentPage))
       unparsedPages = yield select(getUnparsedPages)
     }
+    console.log("Finished Parse")
   } catch (e) {
     console.log(e)
   }

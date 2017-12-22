@@ -18,4 +18,20 @@ export const getFileIdFromUrl = (url) => {
   
 }
 
-export const getContentIdFromUrl = (url) => getQueryObject(url).content_id
+export const getContentIdFromUrl = (url) => {
+  let options = getQueryObject(url)
+  if (_.includes(options, 'Course')) {
+    return options.id
+  } else {
+    return options.content_id
+  }
+}
+
+export const getPageIdFromUrl = (url) => {
+  let options = getQueryObject(url)
+  if (_.includes(options, 'Course')) {
+    return [options.id, ":", options.id].join('')
+  } else {
+    return [options.course_id, ":", options.content_id].join('')
+  }
+}
