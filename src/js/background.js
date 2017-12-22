@@ -12,7 +12,7 @@ import sagas from './sagas'
 const sagaMiddleware = createSagaMiddleware()
 
 const store = createStore(reducer, compose(
-      applyMiddleware(sagaMiddleware, freeze, createLogger())
+      applyMiddleware(sagaMiddleware, freeze, createLogger({diff:true}))
     )) // a normal Redux store
 
 window.store = store
