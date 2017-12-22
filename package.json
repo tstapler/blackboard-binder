@@ -20,6 +20,7 @@
     "delay": "^2.0.0",
     "immutability-helper": "^2.6.2",
     "jest": "^22.0.3",
+    "jest-cli": "^22.0.3",
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
     "parse-url": "^3.0.2",
