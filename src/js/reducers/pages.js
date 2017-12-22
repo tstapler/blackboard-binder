@@ -1,5 +1,6 @@
 import { getContentIdFromUrl, getCourseIdFromUrl, getPageIdFromUrl } from '../util'
 
+import _ from 'lodash'
 import { handleActions } from 'redux-actions'
 import update from 'immutability-helper'
 
@@ -12,7 +13,7 @@ const reducer = handleActions({
     let id = getPageIdFromUrl(action.payload.url)
     let contentId = getContentIdFromUrl(action.payload.url)
     let courseId = getCourseIdFromUrl(action.payload.url)
-    if(!_.has(state.pagesById, id)) {
+    if (!_.has(state.pagesById, id)) {
       return update(state, {pagesById: {
         [id]: {
           $set: {
@@ -24,7 +25,7 @@ const reducer = handleActions({
           }
         }
       }
-    })
+      })
     } else {
       return state
     }

@@ -19,7 +19,7 @@ const reducer = handleActions({
         [id]: {
           $set: {
             ...action.payload,
-            id,
+            id
           }
         }
       }

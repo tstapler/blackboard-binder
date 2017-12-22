@@ -1,10 +1,8 @@
 import { Button, Segment } from 'semantic-ui-react'
+import { getCurrentTab, parseForFiles, parseForPages, processCourses } from '../parserControl'
 
 import React from 'react'
-import _ from 'lodash'
 import { connect } from 'react-redux'
-
-import { processCourses, parseForFiles, parseForPages, getCurrentTab } from '../parserControl'
 import { parseAllClassesAction } from '../actions/parser'
 
 class ParserButtonsComponent extends React.Component {

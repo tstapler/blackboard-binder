@@ -26,7 +26,7 @@ const unsubscribe = store.subscribe(() => {
             BlackBoard-Binder
           </Header>
         </Segment>
-        <Classes/>
+        <Classes />
         <Parser />
       </div>
     </Provider>,

@@ -2,17 +2,18 @@ import '../img/icon-128.png'
 import '../img/icon-34.png'
 
 import { applyMiddleware, compose, createStore } from 'redux'
-import createSagaMiddleware from 'redux-saga'
+
 import { createLogger } from 'redux-logger'
+import createSagaMiddleware from 'redux-saga'
 import freeze from 'redux-freeze'
 import reducer from './reducers'
-import {wrapStore} from 'react-chrome-redux'
 import sagas from './sagas'
+import {wrapStore} from 'react-chrome-redux'
 
 const sagaMiddleware = createSagaMiddleware()
 
 const store = createStore(reducer, compose(
-      applyMiddleware(sagaMiddleware, freeze, createLogger({diff:true}))
+      applyMiddleware(sagaMiddleware, freeze, createLogger({diff: true}))
     )) // a normal Redux store
 
 window.store = store

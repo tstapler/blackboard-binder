@@ -15,7 +15,6 @@ export const getCourseIdFromUrl = (url) => {
 
 export const getFileIdFromUrl = (url) => {
   return /bbcswebdav\/(.*_1)\//.exec(url)[1]
-  
 }
 
 export const getContentIdFromUrl = (url) => {
@@ -30,8 +29,8 @@ export const getContentIdFromUrl = (url) => {
 export const getPageIdFromUrl = (url) => {
   let options = getQueryObject(url)
   if (_.includes(options, 'Course')) {
-    return [options.id, ":", options.id].join('')
+    return [options.id, ':', options.id].join('')
   } else {
-    return [options.course_id, ":", options.content_id].join('')
+    return [options.course_id, ':', options.content_id].join('')
   }
 }

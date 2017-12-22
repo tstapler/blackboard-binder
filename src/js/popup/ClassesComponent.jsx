@@ -1,13 +1,13 @@
 import { Header, Icon, Label, List, Segment } from 'semantic-ui-react'
 
 import React from 'react'
-import { connect } from 'react-redux'
 import _ from 'lodash'
+import { connect } from 'react-redux'
 
 class ClassesComponent extends React.Component {
   render () {
     const classesLi = createClassList(this.props.filesById,
-                                        this.props.classesById);
+                                        this.props.classesById)
     return (
       <div>
         <Segment color='black'>
@@ -22,8 +22,8 @@ class ClassesComponent extends React.Component {
   }
 };
 
-function createClassList(filesById, classesById){
-  let classes = mapFilesToClasses(filesById, classesById);
+function createClassList (filesById, classesById) {
+  let classes = mapFilesToClasses(filesById, classesById)
   return _.map(classes, (course, key) =>
     <List.Item as='a' key={key}>
       <List.Icon name='right triangle' />
@@ -36,13 +36,12 @@ function createClassList(filesById, classesById){
         </List.Header>
       </List.Content>
     </List.Item>
-  );
+  )
 }
 
+function mapFilesToClasses (files, classes) {
+  if (_.isEmpty(classes)) return {}
 
-function mapFilesToClasses(files, classes){
-  if(_.isEmpty(classes)) return {};
-  
   let classesWithFiles = {}
   _.forEach(classes, (value, key) => {
     classesWithFiles[key] = value
@@ -56,7 +55,7 @@ function mapFilesToClasses(files, classes){
 
 function mapStateToProps (state) {
   return { classesById: state.classes.classesById,
-           filesById: state.files.filesById}
+    filesById: state.files.filesById}
 }
 
 export default connect(mapStateToProps)(ClassesComponent)

@@ -1,9 +1,7 @@
+import { getContentIdFromUrl, getCourseIdFromUrl, getFileIdFromUrl } from '../util'
 
 import { handleActions } from 'redux-actions'
-
-import queryString from 'query-string'
 import update from 'immutability-helper'
-import { getContentIdFromUrl, getCourseIdFromUrl, getFileIdFromUrl } from '../util'
 
 const defaultState = {
   filesById: {
@@ -30,7 +28,7 @@ const reducer = handleActions({
       }
     }
     )
-  },
+  }
 }, defaultState)
 
 export { reducer as filesReducers }

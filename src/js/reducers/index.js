@@ -1,7 +1,7 @@
 import { classesReducer } from './classes'
 import { combineReducers } from 'redux'
-import { pagesReducer } from './pages'
 import { filesReducers } from './files'
+import { pagesReducer } from './pages'
 
 const rootReducer = combineReducers({
   'classes': classesReducer,
