@@ -30,12 +30,18 @@ export function * parseAllClasses (action) {
       yield put.resolve(visitPage(currentPage))
       unparsedPages = yield select(getUnparsedPages)
     }
-    console.log("Finished Parse")
+    console.log('Finished Parse')
+    yield put(finishParseAction())
   } catch (e) {
     console.log(e)
   }
 }
 
 export function * watchParseAllClasses () {
-  yield takeLatest('PARSE_ALL_CLASSES', parseAllClasses)
+  let action = null
+  while ((action = yield take('PARSE_ALL_CLASSES'))) {
+    let parserTask = yield fork(parseAllClasses, action)
+    yield take('PARSE_FINISH')
+    yield cancel(parserTask)
+  }
 }
