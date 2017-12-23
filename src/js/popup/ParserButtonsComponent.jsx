@@ -11,10 +11,10 @@ class ParserButtonsComponent extends React.Component {
       <div>
         <Segment color='black'>
           <Button.Group size='mini' widths='4'>
-            <Button onClick={processCourses}>Parse Class List</Button>
-            <Button onClick={parseForFiles}>Parse Files</Button>
-            <Button onClick={parseForPages}>Parse Page</Button>
             <Button onClick={async () => this.props.dispatch(parseAllClassesAction(await getCurrentTab()))}>Parse All Pages</Button>
+            <Button onClick={async () => processCourses(await getCurrentTab())}>Parse Class List</Button>
+            <Button onClick={async () => parseForFiles(await getCurrentTab())}>Parse Files</Button>
+            <Button onClick={async () => parseForPages(await getCurrentTab())}>Parse Pages</Button>
           </Button.Group>
         </Segment>
       </div>
