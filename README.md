@@ -1,7 +1,6 @@
 ---
 Blackboard-Binder!
 ---
-###Authors:  Venecia Alvarez, Jacob Linch, Chris Stapler, Tyler Stapler
 
 ## Why?
 Tired of downloading lecture notes?
@@ -118,5 +117,9 @@ ApiCall({ key: secrets.key });
 ## With React.js
 :bulb: If you want use [React.js](https://facebook.github.io/react/) with this boilerplate, check the **[react branch](https://github.com/samuelsimoes/chrome-extension-webpack-boilerplate/tree/react)**.
 
+**Credit to Samiel Simoes for this awesome chrome extension boilerplate**
+
 -------------
-Samuel Simões ~ [@samuelsimoes](https://twitter.com/samuelsimoes) ~ [Blog](http://blog.samuelsimoes.com/)
+Tyler and Christopher Stapler
+
+
