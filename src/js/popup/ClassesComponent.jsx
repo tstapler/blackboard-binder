@@ -1,61 +1,105 @@
-import { Header, Icon, Label, List, Segment } from 'semantic-ui-react'
+import { Accordion, Header, Icon, Label, List, Segment } from 'semantic-ui-react'
 
 import React from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
+import { getPageIdFromUrl } from '../util.js'
 
 class ClassesComponent extends React.Component {
   render () {
-    const classesLi = createClassList(this.props.filesById,
-                                        this.props.classesById)
+
+    const classes = mapFilesToClasses(this.props.filesById,
+                         this.props.pagesById,
+                         this.props.classesById)
+    const classAccordion = createClassAccordion(classes)
+    console.log(classAccordion)
     return (
       <div>
         <Segment color='black'>
           <Header as='h2' size='small' dividing>
             <Icon name='book' />
-          Course List
-        </Header>
-          <List size='tiny' >{classesLi}</List>
+            Course List
+          </Header>
+          {classAccordion}
         </Segment>
       </div>
     )
   }
 };
 
-function createClassList (filesById, classesById) {
-  let classes = mapFilesToClasses(filesById, classesById)
-  return _.map(classes, (course, key) =>
-    <List.Item as='a' key={key}>
-      <List.Icon name='right triangle' />
-      <List.Content>
-        <List.Header>
-          <span>{course.title}{' '}</span>
-          <Label size='mini' circular color='black' >
-            {course.files.length}
-          </Label>
-        </List.Header>
-      </List.Content>
-    </List.Item>
-  )
+function createClassAccordion(classes){
+  console.log("Classes: ", classes)
+  let classCount = 0
+  let classPanels = []
+  _.forEach(classes, (classObj, classId) => {
+    let pagePanels = []
+    _.forEach(classObj.pages, (pageObj, pageId) => {
+       if(pageObj.files.length <= 0) { return {}}
+       let pageContent = getPageContent(pageObj)
+       pagePanels.push(
+        {
+           title: pageObj.title,
+           content:{ content: (<List size="mini">{pageContent}</List>),
+           key: pageId}
+        }
+      )
+    })
+    let classContent = (<div className="inner-accordion"><Label size='mini' color='black' >
+           file count: {classObj.fileCount}
+          </Label> <Accordion.Accordion key={classId} panels={pagePanels} /></div>)
+    classPanels.push({title:
+                          classObj.title , content: {content: classContent, key: classId}})
+  })
+
+  return (<Accordion panels={classPanels} />)
 }
 
-function mapFilesToClasses (files, classes) {
+function getPageContent(page){
+  return _.map(page.files, (course, key) =>
+          <List.Item as='a' key={key}>
+            <List.Icon name='right triangle' />
+            <List.Content>
+              <List.Header>
+                <span>{course.title}{' '}</span>
+              </List.Header>
+            </List.Content>
+          </List.Item>
+      )
+}
+
+function mapFilesToClasses (files, pages, classes) {
   if (_.isEmpty(classes)) return {}
 
-  let classesWithFiles = {}
-  _.forEach(classes, (value, key) => {
-    classesWithFiles[key] = value
-    classesWithFiles[key].files = []
+  let classMap = {}
+  _.forEach(classes, (classObj, classId) => {
+    classMap[classId] = classObj
+    classMap[classId].pages = {unknown: {title: "Unknown Page", files: []}}
+    classMap[classId].fileCount = 0
   })
-  _.forEach(files, (value, key) => {
-    classesWithFiles[value.courseId].files.push(value)
+  _.forEach(pages, (pageObj, pageId) => {
+    let classId = pageObj.courseId
+    classMap[classId].pages[pageId] = pageObj
+    classMap[classId].pages[pageId].files = []
   })
-  return classesWithFiles
+  _.forEach(files, (fileObj, fileId) => {
+    let classId = fileObj.courseId
+    let pageKey = getPageIdFromUrl(fileObj.parentUrl)
+    classMap[classId].fileCount++
+    if(classMap[classId].pages.hasOwnProperty(pageKey)){
+        classMap[classId].pages[pageKey].files.push(fileObj)
+    } else {
+      classMap[classId].pages["unknown"].files.push(fileObj)
+    }
+  })
+  return classMap
 }
 
 function mapStateToProps (state) {
-  return { classesById: state.classes.classesById,
-    filesById: state.files.filesById}
+  return {
+          classesById: state.classes.classesById,
+          filesById: state.files.filesById,
+          pagesById: state.pages.pagesById
+          }
 }
 
 export default connect(mapStateToProps)(ClassesComponent)
