@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import { selectFile, unselectFile } from '../actions/downloads'
+import { markFileAsDownloadedAction, selectFileAction, unselectFileAction } from '../actions/downloads'
 
 import {downloadsReducer} from './downloads'
 
@@ -13,17 +13,19 @@ describe('todos reducer', () => {
 
   it('should handle DOWNLOADS_SELECT_FILE', () => {
     expect(
-      downloadsReducer(undefined, selectFile('testid'))
+      downloadsReducer(undefined, selectFileAction('testid'))
     ).toEqual({
       downloadedFilesById: {},
       selectedFiles: ['testid']
     })
+  })
 
+  it('should handle UNSELECT_FILE', () => {
     expect(
       downloadsReducer(
         {downloadedFilesById: {},
           selectedFiles: ['testid']}
-        , unselectFile('testid')
+        , unselectFileAction('testid')
       )
     ).toEqual(
       {
@@ -31,5 +33,14 @@ describe('todos reducer', () => {
         selectedFiles: []
       }
     )
+  })
+
+  it('should handle MARK_AS_DOWNLOADED', () => {
+    expect(
+      downloadsReducer(undefined, markFileAsDownloadedAction('testid'))
+    ).toEqual({
+      downloadedFilesById: { testid: {} },
+      selectedFiles: []
+    })
   })
 })

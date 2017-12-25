@@ -4,6 +4,7 @@ import { getCurrentTab, parseForFiles, parseForPages, processCourses } from '../
 
 import React from 'react'
 import { connect } from 'react-redux'
+import { downloadSelectedFilesAction } from '../actions/downloads'
 
 class ParserButtonsComponent extends React.Component {
   render () {
@@ -17,10 +18,11 @@ class ParserButtonsComponent extends React.Component {
     return (
       <div>
         <Segment color='black'>
-          <Button.Group size='mini' widths='4'>
+          <Button.Group size='mini' widths='5'>
             <Button onClick={this.props.processCourses}>Parse Class List</Button>
             <Button onClick={this.props.parseFiles}>Parse Files</Button>
             <Button onClick={this.props.parsePages}>Parse Pages</Button>
+            <Button onClick={this.props.downloadSelectedFiles}>Download Files</Button>
             {parserControlButton}
           </Button.Group>
         </Segment>
@@ -31,7 +33,8 @@ class ParserButtonsComponent extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   startParsing: async () => dispatch(parseAllClassesAction(await getCurrentTab())),
-  stopParsing: async () => dispatch(finishParseAction()),
+  stopParsing: () => dispatch(finishParseAction()),
+  downloadSelectedFiles: () => dispatch(downloadSelectedFilesAction()),
   processCourses: async () => {
     let tab = await getCurrentTab()
     return processCourses(tab.id)
