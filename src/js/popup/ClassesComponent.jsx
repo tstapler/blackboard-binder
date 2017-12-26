@@ -28,7 +28,6 @@ class ClassesComponent extends React.Component {
 };
 
 function createClassAccordion(classes){
-  console.log("Classes: ", classes)
   let classCount = 0
   let classPanels = []
   _.forEach(classes, (classObj, classId) => {
@@ -39,16 +38,25 @@ function createClassAccordion(classes){
        pagePanels.push(
         {
            title: pageObj.title,
-           content:{ content: (<List size="mini">{pageContent}</List>),
+           content:{ content: (<div className="page-accordion-list">
+                                  <List size="mini">{pageContent}</List>
+                               </div>),
            key: pageId}
         }
       )
     })
-    let classContent = (<div className="inner-accordion"><Label size='mini' color='black' >
-           file count: {classObj.fileCount}
-          </Label> <Accordion.Accordion key={classId} panels={pagePanels} /></div>)
-    classPanels.push({title:
-                          classObj.title , content: {content: classContent, key: classId}})
+    let classContent = (<div className="page-accordion">
+                          <Label size='mini' >
+                            Files found: {classObj.fileCount}
+                          </Label>
+                          <Label size='mini' >
+                            Page count: {_.size(classObj.pages) - 1}
+                          </Label>
+                          <Accordion.Accordion key={classId}
+                              panels={pagePanels} />
+                        </div>)
+    classPanels.push({title:classObj.title,
+                      content: {content: classContent, key: classId}})
   })
 
   return (<Accordion panels={classPanels} />)
@@ -73,7 +81,7 @@ function mapFilesToClasses (files, pages, classes) {
   let classMap = {}
   _.forEach(classes, (classObj, classId) => {
     classMap[classId] = classObj
-    classMap[classId].pages = {unknown: {title: "Unknown Page", files: []}}
+    classMap[classId].pages = {unknown : {title: "Unknown Page", files: []}}
     classMap[classId].fileCount = 0
   })
   _.forEach(pages, (pageObj, pageId) => {
