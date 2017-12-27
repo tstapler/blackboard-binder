@@ -4,15 +4,14 @@ import React from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import { getPageIdFromUrl } from '../util.js'
+import { selectFileAction, unselectFileAction } from '../actions/downloads'
 
 class ClassesComponent extends React.Component {
   render () {
-
     const classes = mapFilesToClasses(this.props.filesById,
-                         this.props.pagesById,
-                         this.props.classesById)
-    const classAccordion = createClassAccordion(classes)
-    console.log(classAccordion)
+      this.props.pagesById,
+      this.props.classesById)
+    const classAccordion = this.createClassAccordion(classes)
     return (
       <div>
         <Segment color='black'>
@@ -24,56 +23,91 @@ class ClassesComponent extends React.Component {
         </Segment>
       </div>
     )
-  }
-};
+  };
 
-function createClassAccordion(classes){
-  console.log("Classes: ", classes)
-  let classCount = 0
-  let classPanels = []
-  _.forEach(classes, (classObj, classId) => {
-    let pagePanels = []
-    _.forEach(classObj.pages, (pageObj, pageId) => {
-       if(pageObj.files.length <= 0) { return {}}
-       let pageContent = getPageContent(pageObj)
-       pagePanels.push(
-        {
-           title: pageObj.title,
-           content:{ content: (<List size="mini">{pageContent}</List>),
-           key: pageId}
-        }
-      )
+  createClassAccordion (classes) {
+    let classPanels = []
+    _.forEach(classes, (classObj, classId) => {
+      let pagePanels = []
+      _.forEach(classObj.pages, (pageObj, pageId) => {
+        if (pageObj.files.length <= 0) { return {} }
+        let pageContent = this.getPageContent(pageObj)
+        pagePanels.push(
+          {
+            title: pageObj.title,
+            content: { content: (<List selection size='small'>{pageContent}</List>),
+              key: pageId}
+          }
+        )
+      })
+      let classContent = (
+        <div className='inner-accordion'>
+          <Label size='mini' color='black' >
+            file count: {classObj.fileCount}
+          </Label>
+          <Accordion.Accordion key={classId} panels={pagePanels} />
+        </div>)
+      classPanels.push({title:
+        classObj.title,
+        content: {content: classContent, key: classId}})
     })
-    let classContent = (<div className="inner-accordion"><Label size='mini' color='black' >
-           file count: {classObj.fileCount}
-          </Label> <Accordion.Accordion key={classId} panels={pagePanels} /></div>)
-    classPanels.push({title:
-                          classObj.title , content: {content: classContent, key: classId}})
-  })
 
-  return (<Accordion panels={classPanels} />)
+    return (<Accordion panels={classPanels} />)
+  }
+
+  getPageContent (page) {
+    return _.map(page.files, (file, key) => {
+      let selected = _.has(this.props.selectedFilesById, file.id)
+      return <List.Item active={selected} key={key} onClick={() => {
+        console.log("Clicked item!")
+        if(selected) {
+          this.props.unselectFile(file.id)
+        } else {
+          this.props.selectFile(file.id)
+        }
+      }}>
+        <List.Icon name={this.getFileIconClass(file.title)} />
+        <List.Content>
+          <List.Header>
+            <span>{file.title}{' '}</span>
+          </List.Header>
+        </List.Content>
+      </List.Item>
+    }
+    )
+  }
+
+  getFileIconClass (filename) {
+    let extension = _.flow([_.split, _.last])(filename, '.')
+    switch (extension) {
+      case 'pdf':
+        return 'file pdf outline'
+      case 'mp4':
+        return 'file video outline'
+      case 'mp3':
+        return 'file audio outline'
+      case 'jpg': case 'jpeg': case 'png': case 'gif':
+        return 'file image outline'
+      case 'zip': case 'rar': case 'gz': case '7z':
+        return 'file archive outline'
+      case 'docx': case 'doc':
+        return 'file word outline'
+      case 'ppt':
+        return 'file powerpoint outline'
+      case 'xlsx': case 'xls':
+        return 'file excel outline'
+      default:
+        return 'file outline'
+    }
+  }
 }
-
-function getPageContent(page){
-  return _.map(page.files, (course, key) =>
-          <List.Item as='a' key={key}>
-            <List.Icon name='right triangle' />
-            <List.Content>
-              <List.Header>
-                <span>{course.title}{' '}</span>
-              </List.Header>
-            </List.Content>
-          </List.Item>
-      )
-}
-
 function mapFilesToClasses (files, pages, classes) {
   if (_.isEmpty(classes)) return {}
 
   let classMap = {}
   _.forEach(classes, (classObj, classId) => {
     classMap[classId] = classObj
-    classMap[classId].pages = {unknown: {title: "Unknown Page", files: []}}
+    classMap[classId].pages = {unknown: {title: 'Unknown Page', files: []}}
     classMap[classId].fileCount = 0
   })
   _.forEach(pages, (pageObj, pageId) => {
@@ -85,10 +119,10 @@ function mapFilesToClasses (files, pages, classes) {
     let classId = fileObj.courseId
     let pageKey = getPageIdFromUrl(fileObj.parentUrl)
     classMap[classId].fileCount++
-    if(classMap[classId].pages.hasOwnProperty(pageKey)){
-        classMap[classId].pages[pageKey].files.push(fileObj)
+    if (classMap[classId].pages.hasOwnProperty(pageKey)) {
+      classMap[classId].pages[pageKey].files.push(fileObj)
     } else {
-      classMap[classId].pages["unknown"].files.push(fileObj)
+      classMap[classId].pages['unknown'].files.push(fileObj)
     }
   })
   return classMap
@@ -96,10 +130,18 @@ function mapFilesToClasses (files, pages, classes) {
 
 function mapStateToProps (state) {
   return {
-          classesById: state.classes.classesById,
-          filesById: state.files.filesById,
-          pagesById: state.pages.pagesById
-          }
+    classesById: state.classes.classesById,
+    filesById: state.files.filesById,
+    pagesById: state.pages.pagesById,
+    selectedFilesById: state.downloads.selectedFilesById,
+  }
 }
 
-export default connect(mapStateToProps)(ClassesComponent)
+function mapDispatchToProps (dispatch) {
+  return ({
+    selectFile: (fileId) => dispatch(selectFileAction(fileId)),
+    unselectFile: (fileId) => dispatch(unselectFileAction(fileId))
+  })
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClassesComponent)
