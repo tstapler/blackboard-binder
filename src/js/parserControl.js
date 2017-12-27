@@ -15,25 +15,21 @@ export async function changeUrl (tabId, url) {
 
 export async function sendMessage (tabId, messageType) {
   console.log('Sending Message:', messageType)
-  await delay(1000)
   let response = await chrome.tabs.sendMessage(tabId, {[messageType]: true})
   console.log(response)
 }
 
-export async function parseForPages (tabId) {
-  await sendMessage(tabId, 'parseForPages')
-}
-export async function parseForFiles (tabId) {
-  await sendMessage(tabId, 'parseForFiles')
-}
-
 export async function processPage (tabId, url) {
+  let startTime = await performance.now()
   await changeUrl(tabId, url)
-  await parseForPages(tabId)
-  await parseForFiles(tabId)
+  await delay(1500)
+  await sendMessage(tabId, 'processPage')
+  let endTime = await performance.now()
+  console.log('Processing the page took - ', endTime - startTime, 'ms')
 }
 
 export async function processCourses (tabId) {
   await changeUrl(tabId, COURSE_PAGE)
+  await delay(4000)
   await sendMessage(tabId, 'parseForCoursePage')
 }
