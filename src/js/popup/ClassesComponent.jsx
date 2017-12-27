@@ -7,15 +7,13 @@ import { getPageIdFromUrl } from '../util.js'
 
 class ClassesComponent extends React.Component {
   render () {
-
     const classes = mapFilesToClasses(this.props.filesById,
                          this.props.pagesById,
                          this.props.classesById)
     const classAccordion = createClassAccordion(classes)
-    console.log(classAccordion)
     return (
-      <div>
-        <Segment color='black'>
+      <div className ="classes-accordion-container">
+        <Segment color='black' vertical>
           <Header as='h2' size='small' dividing>
             <Icon name='book' />
             Course List
