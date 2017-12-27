@@ -29,8 +29,10 @@ export const getContentIdFromUrl = (url) => {
 export const getPageIdFromUrl = (url) => {
   let options = getQueryObject(url)
   if (_.includes(options, 'Course')) {
-    return [options.id, ':', options.id].join('')
+    return getPageIdFromComponents(options.id, options.id)
   } else {
-    return [options.course_id, ':', options.content_id].join('')
+    return getPageIdFromComponents(options.course_id, options.content_id)
   }
 }
+
+export const getPageIdFromComponents = (courseId, contentId) => [courseId, ':', contentId].join('')

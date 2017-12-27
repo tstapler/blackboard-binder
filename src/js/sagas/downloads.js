@@ -1,23 +1,34 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
+import { markFileAsDownloadedAction, unselectFileAction } from '../actions/downloads'
 
+import _ from 'lodash'
 import chrome from 'then-chrome'
+import { getPageIdFromComponents } from '../util'
 
-import { markFileAsDownloadedAction } from '../actions/downloads'
-
-const getSelectedFiles = (state) => state.downloads.selectedFiles
+const getSelectedFiles = (state) => state.downloads.selectedFilesById
 
 const getFileUrlFromId = (state, id) => state.files.filesById[id].url
 
-const downloadFile = async (fileUrl) => chrome.downloads.download({url: fileUrl})
+const downloadFile = async (fileUrl, fileName) => chrome.downloads.download({url: fileUrl, filename: fileName, saveAs: false})
+
+const getFilePathFromId = (state, fileId) => {
+  let file = state.files.filesById[fileId]
+  let courseName = state.classes.classesById[file.courseId].title
+  let parentName = state.pages.pagesById[getPageIdFromComponents(file.courseId, file.parentContentId)].title
+  // BB sometimes has course names with leading and trailing spaces, chrome doesn't like that
+  return [_.trim(courseName), _.trim(parentName), _.trim(file.title)].join('/')
+}
 
 export function * downloadSelectedFiles () {
   console.log('Downloading')
   try {
-    let selectedFilesIds = yield select(getSelectedFiles)
-    for (const fileId of selectedFilesIds) {
+    let selectedFilesById = yield select(getSelectedFiles)
+    for (const fileId of _.keys(selectedFilesById)) {
       let fileUrl = yield select(getFileUrlFromId, fileId)
-      console.log(fileUrl)
-      yield call(downloadFile, fileUrl)
+      let filePath = yield select(getFilePathFromId, fileId)
+      console.log(filePath)
+      yield call(downloadFile, fileUrl, filePath)
+      yield put.resolve(unselectFileAction(fileId))
       yield put.resolve(markFileAsDownloadedAction(fileId))
     }
   } catch (e) {

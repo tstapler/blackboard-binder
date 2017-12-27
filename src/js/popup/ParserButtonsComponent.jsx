@@ -16,7 +16,7 @@ class ParserButtonsComponent extends React.Component {
       parserControlButton = <Button onClick={this.props.startParsing}>Start Parsing All Pages</Button>
     }
     return (
-      <div className = "parser-control-container">
+      <div className='parser-control-container'>
         <Segment color='black'>
           <Button.Group size='mini' widths='5'>
             {parserControlButton}
