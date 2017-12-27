@@ -1,9 +1,9 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
+import { markFileAsDownloadedAction, unselectFileAction } from '../actions/downloads'
 
-import chrome from 'then-chrome'
-import { markFileAsDownloadedAction, unselectFileAction} from '../actions/downloads'
-import { getPageIdFromComponents } from '../util'
 import _ from 'lodash'
+import chrome from 'then-chrome'
+import { getPageIdFromComponents } from '../util'
 
 const getSelectedFiles = (state) => state.downloads.selectedFilesById
 

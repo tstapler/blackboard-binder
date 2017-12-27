@@ -7,8 +7,8 @@ const defaultState = {
 }
 
 const reducer = handleActions({
-  SELECT_FILE: (state, action) => update(state, {selectedFilesById: { [action.payload]: {$set: {}}}}),
-  UNSELECT_FILE: (state, action) => update(state, {selectedFilesById: { $unset: [action.payload]}}),
+  SELECT_FILE: (state, action) => update(state, {selectedFilesById: {[action.payload]: {$set: {}}}}),
+  UNSELECT_FILE: (state, action) => update(state, {selectedFilesById: {$unset: [action.payload]}}),
   MARK_AS_DOWNLOADED: (state, action) => update(state, {downloadedFilesById: {[action.payload]: {$set: {}}}})
 }, defaultState)
 

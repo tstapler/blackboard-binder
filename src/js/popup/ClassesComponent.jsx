@@ -1,10 +1,10 @@
 import { Accordion, Header, Icon, Label, List, Segment } from 'semantic-ui-react'
+import { selectFileAction, unselectFileAction } from '../actions/downloads'
 
 import React from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import { getPageIdFromUrl } from '../util.js'
-import { selectFileAction, unselectFileAction } from '../actions/downloads'
 
 class ClassesComponent extends React.Component {
   render () {
@@ -13,7 +13,7 @@ class ClassesComponent extends React.Component {
       this.props.classesById)
     const classAccordion = this.createClassAccordion(classes)
     return (
-      <div className ="classes-accordion-container">
+      <div className='classes-accordion-container'>
         <Segment color='black' vertical>
           <Header as='h2' size='small' dividing>
             <Icon name='book' />
@@ -35,22 +35,22 @@ class ClassesComponent extends React.Component {
         pagePanels.push(
           {
             title: pageObj.title,
-           content:{ content: (<div className="page-accordion-list">
-                                  <List selection size="mini">{pageContent}</List>
-                               </div>)
-          }}
+            content: { content: (<div className='page-accordion-list'>
+              <List selection size='mini'>{pageContent}</List>
+            </div>)
+            }}
         )
       })
-    let classContent = (<div className="page-accordion">
-                          <Label size='mini' >
+      let classContent = (<div className='page-accordion'>
+        <Label size='mini' >
                             Files found: {classObj.fileCount}
-                          </Label>
-                          <Label size='mini' >
+        </Label>
+        <Label size='mini' >
                             Page count: {_.size(classObj.pages) - 1}
-                          </Label>
-                          <Accordion.Accordion key={classId}
-                              panels={pagePanels} />
-                        </div>)
+        </Label>
+        <Accordion.Accordion key={classId}
+          panels={pagePanels} />
+      </div>)
       classPanels.push({title:
         classObj.title,
         content: {content: classContent, key: classId}})
@@ -62,8 +62,8 @@ class ClassesComponent extends React.Component {
     return _.map(page.files, (file, key) => {
       let selected = _.has(this.props.selectedFilesById, file.id)
       return <List.Item active={selected} key={key} onClick={() => {
-        console.log("Clicked item!")
-        if(selected) {
+        console.log('Clicked item!')
+        if (selected) {
           this.props.unselectFile(file.id)
         } else {
           this.props.selectFile(file.id)
@@ -136,7 +136,7 @@ function mapStateToProps (state) {
     classesById: state.classes.classesById,
     filesById: state.files.filesById,
     pagesById: state.pages.pagesById,
-    selectedFilesById: state.downloads.selectedFilesById,
+    selectedFilesById: state.downloads.selectedFilesById
   }
 }
 
