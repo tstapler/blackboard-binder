@@ -32,27 +32,28 @@ class ClassesComponent extends React.Component {
       _.forEach(classObj.pages, (pageObj, pageId) => {
         if (pageObj.files.length <= 0) { return {} }
         let pageContent = this.getPageContent(pageObj)
+        let pageKey = pageId + "-" + pageObj.files[0].id
         pagePanels.push(
           {
             title: pageObj.title,
             content: { content: (<div className='page-accordion-list'>
               <List selection size='mini'>{pageContent}</List>
-            </div>)
-            }}
+              </div>),
+              key: pageKey
+            }
+          }
         )
       })
       let classContent = (<div className='page-accordion'>
-        <Label size='mini' >
-                            Files found: {classObj.fileCount}
-        </Label>
-        <Label size='mini' >
-                            Page count: {_.size(classObj.pages) - 1}
-        </Label>
-        <Accordion.Accordion key={classId}
+        <Accordion.Accordion
           panels={pagePanels} />
       </div>)
-      classPanels.push({title:
-        classObj.title,
+
+      let classTitle = {content: <span>{classObj.title + " "}
+        <Label size='mini' circular color="black">
+        {classObj.fileCount}</Label></span>, key: "title-" + classId
+      }
+      classPanels.push({title: classTitle,
         content: {content: classContent, key: classId}})
     })
     return (<Accordion panels={classPanels} />)
@@ -61,7 +62,7 @@ class ClassesComponent extends React.Component {
   getPageContent (page) {
     return _.map(page.files, (file, key) => {
       let selected = _.has(this.props.selectedFilesById, file.id)
-      return <List.Item active={selected} key={key} onClick={() => {
+      return (<List.Item active={selected} key={key} onClick={() => {
         console.log('Clicked item!')
         if (selected) {
           this.props.unselectFile(file.id)
@@ -75,7 +76,7 @@ class ClassesComponent extends React.Component {
             <span>{file.title}{' '}</span>
           </List.Header>
         </List.Content>
-      </List.Item>
+      </List.Item>)
     }
     )
   }
@@ -130,6 +131,7 @@ function mapFilesToClasses (files, pages, classes) {
   })
   return classMap
 }
+
 
 function mapStateToProps (state) {
   return {
