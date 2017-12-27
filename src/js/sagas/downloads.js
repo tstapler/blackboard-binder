@@ -9,7 +9,7 @@ const getSelectedFiles = (state) => state.downloads.selectedFilesById
 
 const getFileUrlFromId = (state, id) => state.files.filesById[id].url
 
-const downloadFile = async (fileUrl, fileName) => chrome.downloads.download({url: fileUrl, filename: fileName})
+const downloadFile = async (fileUrl, fileName) => chrome.downloads.download({url: fileUrl, filename: fileName, saveAs: false})
 
 const getFilePathFromId = (state, fileId) => {
   let file = state.files.filesById[fileId]
