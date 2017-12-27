@@ -36,7 +36,7 @@ class ClassesComponent extends React.Component {
           {
             title: pageObj.title,
            content:{ content: (<div className="page-accordion-list">
-                                  <List size="mini">{pageContent}</List>
+                                  <List selection size="mini">{pageContent}</List>
                                </div>)
           }}
         )
