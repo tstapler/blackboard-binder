@@ -16,14 +16,11 @@ class ParserButtonsComponent extends React.Component {
       parserControlButton = <Button onClick={this.props.startParsing}>Start Parsing All Pages</Button>
     }
     return (
-      <div>
+      <div className = "parser-control-container">
         <Segment color='black'>
           <Button.Group size='mini' widths='5'>
-            <Button onClick={this.props.processCourses}>Parse Class List</Button>
-            <Button onClick={this.props.parseFiles}>Parse Files</Button>
-            <Button onClick={this.props.parsePages}>Parse Pages</Button>
-            <Button onClick={this.props.downloadSelectedFiles}>Download Files</Button>
             {parserControlButton}
+            <Button onClick={this.props.downloadSelectedFiles}>Download Files</Button>
           </Button.Group>
         </Segment>
       </div>

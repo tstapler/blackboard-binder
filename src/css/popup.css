@@ -1,6 +1,20 @@
+.classes-accordion-container{
+  height: 75vmin;
+  overflow-y: scroll;
+}
 .page-accordion {
   padding-left: 20px;
 }
 .page-accordion-list {
   padding-left: 20px;
+}
+.parser-control-container{
+  position: fixed;
+  bottom: 0;
+  width: 100%
+}
+
+HTML {
+  height: 120vmin;
+  overflow-y: scroll;
 }

@@ -13,8 +13,8 @@ class ClassesComponent extends React.Component {
       this.props.classesById)
     const classAccordion = this.createClassAccordion(classes)
     return (
-      <div>
-        <Segment color='black'>
+      <div className ="classes-accordion-container">
+        <Segment color='black' vertical>
           <Header as='h2' size='small' dividing>
             <Icon name='book' />
             Course List
