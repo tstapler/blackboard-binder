@@ -20,14 +20,12 @@ chrome.runtime.onMessage.addListener(
     setTimeout(() => {
       if (request.parseForCoursePage) {
         parser.parseCourseList()
-      } else if (request.parseForFiles) {
-        parser.parseFiles()
-      } else if (request.parseForPages) {
+      } else if (request.processPage) {
         parser.parsePages()
-      } else if (request.contentScriptCall) {
+        parser.parseFiles()
       }
       sendResponse('Finished')
-    }, 2000)
+    }, 1000)
     return true
   }
 )
