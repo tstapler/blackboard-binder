@@ -1,7 +1,7 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 
 import chrome from 'then-chrome'
-import { markFileAsDownloadedAction } from '../actions/downloads'
+import { markFileAsDownloadedAction, unselectFileAction} from '../actions/downloads'
 import { getPageIdFromComponents } from '../util'
 import _ from 'lodash'
 
@@ -28,6 +28,7 @@ export function * downloadSelectedFiles () {
       let filePath = yield select(getFilePathFromId, fileId)
       console.log(filePath)
       yield call(downloadFile, fileUrl, filePath)
+      yield put.resolve(unselectFileAction(fileId))
       yield put.resolve(markFileAsDownloadedAction(fileId))
     }
   } catch (e) {
