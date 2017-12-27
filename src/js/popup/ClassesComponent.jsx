@@ -35,23 +35,26 @@ class ClassesComponent extends React.Component {
         pagePanels.push(
           {
             title: pageObj.title,
-            content: { content: (<List selection size='small'>{pageContent}</List>),
-              key: pageId}
-          }
+           content:{ content: (<div className="page-accordion-list">
+                                  <List size="mini">{pageContent}</List>
+                               </div>)
+          }}
         )
       })
-      let classContent = (
-        <div className='inner-accordion'>
-          <Label size='mini' color='black' >
-            file count: {classObj.fileCount}
-          </Label>
-          <Accordion.Accordion key={classId} panels={pagePanels} />
-        </div>)
+    let classContent = (<div className="page-accordion">
+                          <Label size='mini' >
+                            Files found: {classObj.fileCount}
+                          </Label>
+                          <Label size='mini' >
+                            Page count: {_.size(classObj.pages) - 1}
+                          </Label>
+                          <Accordion.Accordion key={classId}
+                              panels={pagePanels} />
+                        </div>)
       classPanels.push({title:
         classObj.title,
         content: {content: classContent, key: classId}})
     })
-
     return (<Accordion panels={classPanels} />)
   }
 

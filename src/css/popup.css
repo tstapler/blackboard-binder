@@ -1,3 +1,6 @@
-inner-accordion {
+.page-accordion {
+  padding-left: 20px;
+}
+.page-accordion-list {
   padding-left: 20px;
 }
