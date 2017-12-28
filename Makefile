@@ -28,4 +28,9 @@ $(DOCKER_RULES):
 
 # Add local rules which are run in the docker container
 local-format:
-	import-sort --write src/**/*.{js,jsx} && standard --global $$ --global chrome --fix src/**/*.{js,jsx} 
+	import-sort --write src/**/*.{js,jsx} && standard --global performance --global $$ --global chrome --fix src/**/*.{js,jsx} 
+
+local-icon-gen:
+	for size in "16" "19" "38" "48" "128"; do \
+		inkscape -z -e src/assets/icon-$$sizex$$size.png -w $$size -h $$size src/assets/bbbinder-logo-128x128.svg; \
+	done
