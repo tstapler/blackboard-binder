@@ -12,8 +12,6 @@ var alias = {};
 
 var secretsPath = path.join(__dirname, ("secrets." + env.NODE_ENV + ".js"));
 
-var fileExtensions = ["jpg", "jpeg", "png", "gif", "eot", "otf", "svg", "ttf", "woff", "woff2"];
-
 if (fileSystem.existsSync(secretsPath)) {
   alias["secrets"] = secretsPath;
 }
@@ -36,11 +34,6 @@ var options = {
         loader: "style-loader!css-loader",
       },
       {
-        test: new RegExp('\.(' + fileExtensions.join('|') + ')$'),
-        loader: "file-loader?name=[name].[ext]",
-        exclude: /node_modules/
-      },
-      {
         test: /\.html$/,
         loader: "html-loader",
         exclude: /node_modules/
@@ -53,7 +46,7 @@ var options = {
       {
         test: /\.jpe?g$|\.gif$|\.png$|\.ttf$|\.eot$|\.svg$/,
         use: [{
-          loader: 'file-loader?name=[name].[ext]?[hash]',
+          loader: 'file-loader?name=[name].[ext]',
         }]
       },
       {
@@ -66,7 +59,6 @@ var options = {
   },
   resolve: {
     alias: alias,
-    extensions: fileExtensions.map(extension => ("." + extension)).concat([".jsx", ".js", ".css", ".json"])
   },
   plugins: [
     // clean the build folder
