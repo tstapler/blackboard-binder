@@ -1,10 +1,13 @@
-import { Accordion, Header, Icon, Label, List, Segment } from 'semantic-ui-react'
+import { Accordion, Button, Container, Header, Icon, Label, List, Segment } from 'semantic-ui-react'
 import { selectFileAction, unselectFileAction } from '../actions/downloads'
 
 import React from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import { getPageIdFromUrl } from '../util.js'
+
+const bbHomepageLink = "https://bb.its.iastate.edu/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_1_1"
+const bbbHelpLink = "https://github.com/tstapler/blackboard-binder"
 
 class ClassesComponent extends React.Component {
   render () {
@@ -14,13 +17,27 @@ class ClassesComponent extends React.Component {
     const classAccordion = this.createClassAccordion(classes)
     return (
         <Segment color='black' vertical>
-          <Header as='h2' size='small' dividing>
-            <Icon name='book' />
-            Course List
-          </Header>
-          <div className='classes-accordion-container'>
-              {classAccordion}
-          </div>
+          {(_.isEmpty(classes) ?
+            <Container>
+              <div>Please login to BlackBoard before attempting to parse classes. If any difficulties occur use help button below for assistance.
+              </div>
+              <Button.Group size="mini" compact color="blue">
+                <Button as='a' href={bbHomepageLink} target="_blank"> BlackBoard Login</Button>
+                <Button as='a' href={bbbHelpLink} target="_blank"> Help</Button>
+              </Button.Group>
+            </Container>
+            :
+            <div>
+              <Header as='h2' size='small' dividing>
+                <Icon name='book' />
+                Course List
+              </Header>
+              <div className='classes-accordion-container'>
+                {classAccordion}
+              </div>
+            </div>
+          )}
+
         </Segment>
     )
   };
@@ -70,7 +87,8 @@ class ClassesComponent extends React.Component {
           this.props.selectFile(file.id)
         }
       }}
-       className={(downloaded) ? "downloaded" : ""}>
+       className={(downloaded) ? "downloaded" : ""}
+      >
         <List.Icon name={this.getFileIconClass(file.title)} />
         <List.Content>
           <List.Header>
