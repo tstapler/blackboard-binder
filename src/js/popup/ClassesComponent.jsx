@@ -13,15 +13,15 @@ class ClassesComponent extends React.Component {
       this.props.classesById)
     const classAccordion = this.createClassAccordion(classes)
     return (
-      <div className='classes-accordion-container'>
         <Segment color='black' vertical>
           <Header as='h2' size='small' dividing>
             <Icon name='book' />
             Course List
           </Header>
-          {classAccordion}
+          <div className='classes-accordion-container'>
+              {classAccordion}
+          </div>
         </Segment>
-      </div>
     )
   };
 
@@ -60,20 +60,22 @@ class ClassesComponent extends React.Component {
   }
 
   getPageContent (page) {
-    return _.map(page.files, (file, key) => {
+    return _.map(page.files, (file, index) => {
       let selected = _.has(this.props.selectedFilesById, file.id)
-      return (<List.Item active={selected} key={key} onClick={() => {
-        console.log('Clicked item!')
+      let downloaded = _.has(this.props.downloadedFilesById, file.id)
+      return (<List.Item active={selected} key={file.id} onClick={() => {
         if (selected) {
           this.props.unselectFile(file.id)
         } else {
           this.props.selectFile(file.id)
         }
-      }}>
+      }}
+       className={(downloaded) ? "downloaded" : ""}>
         <List.Icon name={this.getFileIconClass(file.title)} />
         <List.Content>
           <List.Header>
             <span>{file.title}{' '}</span>
+            { (downloaded) ? <Icon name="download"/> : ""}
           </List.Header>
         </List.Content>
       </List.Item>)
@@ -138,7 +140,8 @@ function mapStateToProps (state) {
     classesById: state.classes.classesById,
     filesById: state.files.filesById,
     pagesById: state.pages.pagesById,
-    selectedFilesById: state.downloads.selectedFilesById
+    selectedFilesById: state.downloads.selectedFilesById,
+    downloadedFilesById: state.downloads.downloadedFilesById
   }
 }
 

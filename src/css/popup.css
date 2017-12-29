@@ -1,6 +1,6 @@
 .classes-accordion-container{
-  height: 75vmin;
-  overflow-y: scroll;
+  height: 55vmin;
+  overflow-y: auto;
 }
 .page-accordion {
   padding-left: 20px;
@@ -13,8 +13,11 @@
   bottom: 0;
   width: 100%
 }
+div.downloaded > i.icon, div.downloaded > div.content > .header > *{
+  color: green;
+}
 
 HTML {
-  height: 120vmin;
+  height: 140vmin;
   overflow-y: scroll;
 }

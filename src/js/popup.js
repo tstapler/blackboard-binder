@@ -1,10 +1,11 @@
 import 'semantic-ui-css/semantic.min.css'
 import '../css/popup.css'
 
-import { Header, Icon, Segment } from 'semantic-ui-react'
+import { Container, Header, Icon, Label, Segment } from 'semantic-ui-react'
 
 import Classes from './popup/ClassesComponent.jsx'
 import Parser from './popup/ParserButtonsComponent.jsx'
+import Stats from './popup/StatsComponent.jsx'
 import {Provider} from 'react-redux'
 import React from 'react'
 import {Store} from 'react-chrome-redux'
@@ -26,6 +27,7 @@ const unsubscribe = store.subscribe(() => {
             BlackBoard-Binder
           </Header>
         </Segment>
+        <Stats />
         <Classes />
         <Parser />
       </div>
