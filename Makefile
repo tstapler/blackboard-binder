@@ -34,3 +34,7 @@ local-icon-gen:
 	for size in "16" "19" "38" "48" "128"; do \
 		inkscape -z -e src/assets/icon-$$sizex$$size.png -w $$size -h $$size src/assets/bbbinder-logo-128x128.svg; \
 	done
+
+local-publish:
+	NODE_ENV=production npm run build
+	zip -j blackboard-binder.zip build/*
