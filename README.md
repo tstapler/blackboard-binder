@@ -1,13 +1,27 @@
 # Blackboard-Binder
 
-## Why?
-Tired of downloading lecture notes?
+**Blackboard Binder** is a chrome-extension for archiving your course materials. Have you ever started a new semester and wished you had saved the homework solutions for that class you just took? **Blackboard Binder** makes it quick and easy to save all your past course materials.
 
-Sick of missing assignments?
+## Usage
 
-Use Blackboard Binder!
+Using **Blackboard Binder** is simple.
 
-An app that archives your course materials so that you don't have to.
+Before getting started, you might want to go to chrome settings and turn off the option `Ask where to save each file before downloading`.  
+![Ask where button](./docs/download-setting.jpg)
+
+1. Get the app from the chrome store
+
+2. Log in to Blackboard
+
+3. Click the *Start Parsing* button to start the parser
+
+4. Wait until the parser finishes and the additional tabs disappear.\*
+
+\* If there is a problem and parsing stops abruptly try pressing the stop button and restarting parsing.
+
+5. Select the files you want to download from the list
+
+6. Click the download button.
 
 ## Development
 _I'll assume that you already read the [Webpack docs](https://webpack.github.io/docs) and the [Chrome Extension](https://developer.chrome.com/extensions/getstarted) docs._
