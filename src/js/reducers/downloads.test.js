@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import { markFileAsDownloadedAction, selectFileAction, unselectFileAction } from '../actions/downloads'
+import { markFileAsDownloadedAction, selectAllFilesAction, selectFileAction, selectUndownloadedFilesAction, unselectAllFilesAction, unselectFileAction } from '../actions/downloads'
 
 import {downloadsReducer} from './downloads'
 
@@ -7,7 +7,7 @@ describe('todos reducer', () => {
   it('should return the initial state', () => {
     expect(downloadsReducer(undefined, {})).toEqual({
       downloadedFilesById: {},
-      selectedFiles: []
+      selectedFilesById: {}
     })
   })
 
@@ -16,7 +16,7 @@ describe('todos reducer', () => {
       downloadsReducer(undefined, selectFileAction('testid'))
     ).toEqual({
       downloadedFilesById: {},
-      selectedFiles: ['testid']
+      selectedFilesById: {testid: {}}
     })
   })
 
@@ -24,13 +24,13 @@ describe('todos reducer', () => {
     expect(
       downloadsReducer(
         {downloadedFilesById: {},
-          selectedFiles: ['testid']}
+          selectedFilesById: {'testid': {}}}
         , unselectFileAction('testid')
       )
     ).toEqual(
       {
         downloadedFilesById: {},
-        selectedFiles: []
+        selectedFilesById: {}
       }
     )
   })
@@ -40,7 +40,19 @@ describe('todos reducer', () => {
       downloadsReducer(undefined, markFileAsDownloadedAction('testid'))
     ).toEqual({
       downloadedFilesById: { testid: {} },
-      selectedFiles: []
+      selectedFilesById: {}
     })
+  })
+
+  it('should handle UNSELECT_ALL_FILES', () => {
+    expect(
+      downloadsReducer(
+        {downloadedFilesById: {},
+          selectedFilesById: {'testid': {}, 'testid2': {}}}
+        , unselectAllFilesAction()
+      )).toEqual({
+        downloadedFilesById: {},
+        selectedFilesById: {}
+      })
   })
 })

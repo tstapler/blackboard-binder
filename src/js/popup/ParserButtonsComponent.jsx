@@ -3,6 +3,7 @@ import { finishParseAction, parseAllClassesAction } from '../actions/parser'
 import { getCurrentTab, parseForFiles, parseForPages, processCourses } from '../parserControl'
 
 import React from 'react'
+import _ from 'lodash'
 import { connect } from 'react-redux'
 import { downloadSelectedFilesAction } from '../actions/downloads'
 
@@ -20,7 +21,7 @@ class ParserButtonsComponent extends React.Component {
         <Segment color='black'>
           <Button.Group size='mini' widths='5'>
             {parserControlButton}
-            <Button onClick={this.props.downloadSelectedFiles}>Download Files</Button>
+            <Button onClick={this.props.downloadSelectedFiles}>Download {this.props.selectedFilesNum} Files</Button>
           </Button.Group>
         </Segment>
       </div>
@@ -48,7 +49,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => {
-  return {parsing: state.parser.parsing}
+  return {parsing: state.parser.parsing,
+    selectedFilesNum: _.keys(state.downloads.selectedFilesById).length }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ParserButtonsComponent)

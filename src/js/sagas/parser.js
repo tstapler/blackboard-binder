@@ -1,6 +1,8 @@
-import { all, call, cancel, fork, put, select, take } from 'redux-saga/effects'
+/* eslint-env browser */
+import { call, cancel, fork, put, select, take } from 'redux-saga/effects'
 import { processCourses, processPage } from '../parserControl'
 
+import { batchActions } from 'redux-batched-actions'
 import _ from 'lodash'
 import chrome from 'then-chrome'
 import { finishParseAction } from '../actions/parser'
@@ -16,6 +18,14 @@ const deleteTabs = async (tabs) => chrome.tabs.remove(tabs)
 const setCurrentTab = async (tabId) => chrome.tabs.update(tabId, {highlighted: true})
 
 const numberOfTabs = 5
+
+const batchProcessClasses = async (pages, tabIds) => {
+  console.log('Pages left to parse:', pages)
+  let targetPages = _.take(pages, numberOfTabs)
+  await Promise.all(_.map(_.zip(_.take(tabIds, targetPages.length), targetPages), ([tabId, page]) =>
+    processPage(tabId, page.url)))
+  return targetPages
+}
 
 export function * parseAllClasses (action) {
   var startTime = performance.now()
@@ -33,19 +43,15 @@ export function * parseAllClasses (action) {
     console.log('Getting classes')
     let classes = yield select(getClasses)
     console.log('Got classes', classes)
-    for (const currClass of classes) {
-      console.log(currClass)
-      yield call(processPage, currentTabId, currClass.url)
+    for (const currClasses of _.chunk(classes, numberOfTabs)) {
+      console.log('Curr Classes', currClasses)
+      yield call(batchProcessClasses, currClasses, tabIds)
     }
     console.log('Getting unparsed pages')
     let unparsedPages = yield select(getUnparsedPages)
     while (_.some(unparsedPages)) {
-      console.log('Unparsed pages:', unparsedPages)
-      let targetPages = _.take(unparsedPages, numberOfTabs)
-      console.log(targetPages)
-      yield all(_.map(_.zip(_.take(tabIds, targetPages.length), targetPages), ([tabId, page]) =>
-        call(processPage, tabId, page.url)))
-      yield all(_.map(targetPages, (page) => put.resolve(visitPage(page))))
+      let visitedPages = yield call(batchProcessClasses, unparsedPages, tabIds)
+      yield put(batchActions(_.map(visitedPages, (page) => visitPage(page))))
       unparsedPages = yield select(getUnparsedPages)
     }
     console.log('Finished Parse')
