@@ -1,5 +1,6 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
-import { markFileAsDownloadedAction, unselectFileAction } from '../actions/downloads'
+import { markFileAsDownloadedAction, selectFileAction, unselectFileAction } from '../actions/downloads'
+import { batchActions } from 'redux-batched-actions'
 
 import _ from 'lodash'
 import chrome from 'then-chrome'
@@ -19,8 +20,52 @@ const getFilePathFromId = (state, fileId) => {
   return [_.trim(courseName), _.trim(parentName), _.trim(file.title)].join('/')
 }
 
+const getUndownloadedFiles = (state) => _.filter(_.keys(state.files.filesById), (fileId) => !_.has(state.downloads.downloadedFilesById, fileId))
+
+const getAllFiles = (state) => _.keys(state.files.filesById)
+
+export function * unselectAllFiles () {
+  try {
+    let files = yield select(getAllFiles)
+    yield put.resolve(batchActions(files.map((fileId) => unselectFileAction(fileId))))
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export function * watchUnselectAllFiles () {
+  yield takeEvery('UNSELECT_ALL_FILES', unselectAllFiles)
+}
+
+export function * selectAllFiles () {
+  try {
+    let files = yield select(getAllFiles)
+    let fileSelectionActions = files.map((fileId) => selectFileAction(fileId))
+    console.log(fileSelectionActions)
+    yield put(batchActions(fileSelectionActions))
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export function * watchSelectAllFiles () {
+  yield takeEvery('SELECT_ALL_FILES', selectAllFiles)
+}
+
+export function * selectUndownloadedFiles () {
+  try {
+    let undownloadedFiles = yield select(getUndownloadedFiles)
+    yield put.resolve(batchActions(undownloadedFiles.map((fileId) => selectFileAction(fileId))))
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export function * watchSelectUndownloadedFiles () {
+  yield takeEvery('SELECT_UNDOWNLOADED', selectUndownloadedFiles)
+}
+
 export function * downloadSelectedFiles () {
-  console.log('Downloading')
   try {
     let selectedFilesById = yield select(getSelectedFiles)
     for (const fileId of _.keys(selectedFilesById)) {

@@ -1,5 +1,5 @@
 import { Accordion, Button, Container, Header, Icon, Label, List, Segment } from 'semantic-ui-react'
-import { selectFileAction, unselectFileAction } from '../actions/downloads'
+import { selectAllFilesAction, selectFileAction, selectUndownloadedFilesAction, unselectAllFilesAction, unselectFileAction } from '../actions/downloads'
 
 import React from 'react'
 import _ from 'lodash'

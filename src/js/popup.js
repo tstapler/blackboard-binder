@@ -8,6 +8,7 @@ import Parser from './popup/ParserButtonsComponent.jsx'
 import Stats from './popup/StatsComponent.jsx'
 import {Provider} from 'react-redux'
 import React from 'react'
+import Selection from './popup/SelectionComponent.jsx'
 import {Store} from 'react-chrome-redux'
 import { render } from 'react-dom'
 
@@ -28,6 +29,7 @@ const unsubscribe = store.subscribe(() => {
           </Header>
         </Segment>
         <Stats />
+        <Selection />
         <Classes />
         <Parser />
       </div>

@@ -1,23 +1,24 @@
 .classes-accordion-container{
-  height: 55vmin;
-  overflow-y: auto;
+  overflow-y: scroll;
+  height: 40vh;
 }
 .page-accordion {
-  padding-left: 20px;
+  padding-left: 1.25em;
 }
 .page-accordion-list {
-  padding-left: 20px;
+  padding-left: 1.25em;
 }
-.parser-control-container{
-  position: fixed;
-  bottom: 0;
-  width: 100%
-}
+
 div.downloaded > i.icon, div.downloaded > div.content > .header > *{
   color: green;
 }
 
 HTML {
-  height: 140vmin;
-  overflow-y: scroll;
+  height: 100%;
+  min-width: 40vh;
+}
+
+body {
+	min-width: 400px;
+	width: 100%;
 }
