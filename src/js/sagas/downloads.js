@@ -14,6 +14,7 @@ const downloadFile = async (fileUrl, fileName) => chrome.downloads.download({url
 
 const getFilePathFromId = (state, fileId) => {
   let file = state.files.filesById[fileId]
+  console.log(file)
   let courseName = state.classes.classesById[file.courseId].title
   let parentName = state.pages.pagesById[getPageIdFromComponents(file.courseId, file.parentContentId)].title
   // BB sometimes has course names with leading and trailing spaces, chrome doesn't like that
@@ -69,12 +70,17 @@ export function * downloadSelectedFiles () {
   try {
     let selectedFilesById = yield select(getSelectedFiles)
     for (const fileId of _.keys(selectedFilesById)) {
-      let fileUrl = yield select(getFileUrlFromId, fileId)
-      let filePath = yield select(getFilePathFromId, fileId)
-      console.log(filePath)
-      yield call(downloadFile, fileUrl, filePath)
-      yield put.resolve(unselectFileAction(fileId))
-      yield put.resolve(markFileAsDownloadedAction(fileId))
+      try {
+        let fileUrl = yield select(getFileUrlFromId, fileId)
+        let filePath = yield select(getFilePathFromId, fileId)
+        console.log(filePath)
+        yield call(downloadFile, fileUrl, filePath)
+        yield put.resolve(unselectFileAction(fileId))
+        yield put.resolve(markFileAsDownloadedAction(fileId))
+        
+      } catch (e) {
+        console.log("Failed to download file:", e)
+      }
     }
   } catch (e) {
     console.log(e)

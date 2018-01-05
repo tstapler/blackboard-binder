@@ -51,7 +51,11 @@ export function * parseAllClasses (action) {
     let unparsedPages = yield select(getUnparsedPages)
     while (_.some(unparsedPages)) {
       let visitedPages = yield call(batchProcessClasses, unparsedPages, tabIds)
-      yield put(batchActions(_.map(visitedPages, (page) => visitPage(page))))
+      try {
+        yield put(batchActions(_.map(visitedPages, (page) => visitPage(page))))
+      } catch (e) {
+        console.log("Failed parsing pages:", e)
+      }
       unparsedPages = yield select(getUnparsedPages)
     }
     console.log('Finished Parse')
